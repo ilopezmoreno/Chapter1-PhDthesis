@@ -20,7 +20,7 @@
 		
 	// Establish dynamic and absolute file path to the working directory.
 		clear
-		global root "C:/Users/d57917il/Documents/GitHub/thesis-chapter1" // Establish a dynamic and absolute file path.
+		global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis" // Establish a dynamic and absolute file path.
 		/* Important notes: 
 		Always remember to use forward slashes "/" in file paths to working directories
 		For Stata, globals must only be defined in the master do-file
