@@ -187,5 +187,3 @@ duplicates report person_id_per
 	drop person_id
 
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta", replace
-	
- 

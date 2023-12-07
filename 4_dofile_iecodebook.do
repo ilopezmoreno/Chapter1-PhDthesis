@@ -43,6 +43,6 @@ the analysis, and just use the iecodebook to re-label and re-code variables. */
 
 iecodebook apply using "${root}/iecodebook.xlsx", replace // This is the code that asks stata to apply my iecodebook to my dataset.
 
-save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta", replace
+save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta", replace
 
 

@@ -65,20 +65,10 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 	erase 		HOGT119.dta		// Ask stata to erase the HOG dataset as I will not use it for this research project.
 	erase 		VIVT119.dta		// Ask stata to erase the VIV dataset as I will not use it for this research project.
 
-	use			sdemt119.dta 	// As this dataset is in lower case, I need to rename it. 
-	save 		"$root/2_data-storage/bases_enoe/SDEMT119.dta", replace // Save the dataset with uppercases
-	erase 		sdemt119.dta 	// Erase the dataset with lower cases. 
-
-	use			coe1t119.dta 	// As this dataset is in lower case, I need to rename it. 
-	save 		"$root/2_data-storage/bases_enoe/COE1T119.dta", replace // Save the dataset with uppercases
-	erase 		coe1t119.dta 	// Erase the dataset with lower cases. 
-
-	use			coe2t119.dta 	// As this dataset is in lower case, I need to rename it. 
-	save 		"$root/2_data-storage/bases_enoe/COE2T119.dta", replace // Save the dataset with uppercases
-	erase 		coe2t119.dta 	// Erase the dataset with lower cases. 
-
-
-
+	shell rename "sdemt119.dta" "SDEMT119.dta" // As this dataset is in lower case, I need to rename it. 
+	shell rename "coe1t119.dta" "COE1T119.dta" // As this dataset is in lower case, I need to rename it. 
+	shell rename "coe2t119.dta" "COE2T119.dta" // As this dataset is in lower case, I need to rename it. 
+	
 /* 	I could have done the same process using a loop.
 	However, for some reason it takes way more time to download the datasets if I use a loop.
 	This is a reference of the loop that can be used to download the datasets. */
