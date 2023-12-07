@@ -16,7 +16,8 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 	1. Data cleaning based on INEGI criteria. 
 	2. Merge the datasets for each of the year/quarters considered for the study. 
 	3. Append all the merged datasets to create a unique pool dataset 
-	4. Create a unique identification variable based on INEGI criteria */
+	4. Create a unique identification variable based on INEGI criteria 
+	5. Compress the pool dataset. */
 
 /* 	INEGI recommends to always uses the SDEM dataset as the reference dataset 
 	and then merge it with the datasets that includes the questions that you are interested in. 
@@ -186,4 +187,23 @@ duplicates report person_id_per
 	I should drop the person_id variable and only mantain person_id_per */
 	drop person_id
 
+
+// 	Finally, compress the dataset so it takes less memory from your computer. 
+
+/* 	COMPRESS
+	Use the command "compress" to reduce the size of the dataset. 
+	It will also take less memory from your computer. */
+	compress 
+	// Before using compress. SIZE: 3,836.85M / MEMORY:4,576M 
+	// After using compress.  SIZE: 649.28M   / MEMORY:864M
+
+	/*  This is what the compress command does.	
+		doubles   to   longs, ints, or bytes
+        floats    to   ints or bytes
+        longs     to   ints or bytes
+        ints      to   bytes
+        str#s     to   shorter str#s
+        strLs     to   str#s  				*/
+	
+	
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta", replace

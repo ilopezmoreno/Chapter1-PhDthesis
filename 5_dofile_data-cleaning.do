@@ -1,10 +1,60 @@
 clear 
 global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 
+/* 
+
+Data cleaning should usually consider
+	
+	1. Explore the data using tabulations, summaries and 
+	descriptive plots, to find errors in the dataset. 
+	
+	2. Make sure that the unique ID has no duplicates, and 
+	anonymize/de-identify if its necessary. (You can use command "ieduplicates") 
+	
+	3. Include a clear explanation of all your corrections to the dataset in the dofile.
+		
+	4. Transform categorical string variables into destring labeled variables.
+	
+	5. Change variable labels to English (You can use the command "label variable")
+	
+	6. Remove values like -88, 999, etc that are commonly use to represent 
+	answers like "Don't know" or "declined to answer". In certain cases you will have to 
+	convert them in missing values, in other cases, you can drop them. 
+	
+	7. Use extended missing values instead of regular missing values "."
+	The options of extended missing values are: 
+	.d = "Dont know"
+	.r = "Refused to answer"
+	.s = "Skipped"
+	Note: This missing values can also be labeled.
+	
+	8. Try not to change the variables names/codes, unless it is necessary. 
+	Renaming variables make it harder to find correspondance between variables and survey questions.
+	
+	9. Check consistency across variables. For example:
+	If a respondent is male, then it cannot be pregnant. 
+	If a respondent said they are not working, then they shouldn't have a salary. 
+
+	10. High frequency checks and data quality checks.
+	
+	11. Create flag variables that identify observations with inconsistent values. 
+	
+	12. Compress your dataset to reduce the 
+	
+A few pieces of documentation should accompany the clean dataset	
+	1. A variable dictionary/codebook listing details about each variable  
+	What does this variable mean? Summary of its content
+	2. The instruments used to collect the data
+	3. A complete record of any corrections made to the raw data, including 
+	careful explanations about the decision-making process involved. 
+	4. A report documenting any irregularities and distributional patterns 
+	encountered in the data
+	
+
+*/
+
 cd	"${root}/2_data-storage/pool_dataset" 
-use pool_enoe_105_110_115_119.dta
-
-
+use pool_enoe_105_110_115_119-tidy.dta
 
 
 

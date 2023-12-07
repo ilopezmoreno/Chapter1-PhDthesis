@@ -23,7 +23,6 @@ https://www.youtube.com/watch?v=zm6eoMU09dA&t=1174s
 cd	"${root}/2_data-storage/pool_dataset" 
 use pool_enoe_105_110_115_119.dta
 
-
 /* The following line of code is used to generate the excel file "iecodebook"
 However, those that want to replicate my code, doesn't need to generate a iecodebook. 
 Instead, they just need to charge the one that I already prepared.   
