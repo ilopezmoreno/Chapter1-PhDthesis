@@ -5,12 +5,14 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 * DATA FLOW CHART *
 *******************
 
-/*	Data flow charts specify which datasets are needed to create the analysis dataset and how they may be combined 
-	by either appending or merging datasets.
+/*	Data flow charts specify which datasets are needed to create the main 
+	analysis dataset and how they may be combined by either appending 
+	or merging datasets.
 
-	Every original dataset that is mentioned in a data flow chart should be listed in the data linkage table.
+	Every original dataset that is mentioned in a data flow chart should be 
+	listed in the data linkage table.
 
-	For more info> https://dimewiki.worldbank.org/Data_Flow_Charts */
+	For more info -> https://dimewiki.worldbank.org/Data_Flow_Charts */
 	
 /* 	This do-file includes the following sections
 	1. Data cleaning based on INEGI criteria. 
@@ -57,17 +59,20 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	drop if eda<=11
 	drop if eda==99
 
-	/* Second, INEGI recommends to drop all the individual that didn't complete the interview. 
-	More specifically, the explain that I should eliminate those interviews where the variable "r_def" is 
-	different from "00", since "r_def" is the definitive result of the interview and "00" indicates 
-	that the interview was completed. */
+	/* Second, INEGI recommends to drop all the individual that didn't 
+	complete the interview. More specifically, the explain that I should 
+	eliminate those interviews where the variable "r_def" is different from 
+	"00", since "r_def" is the definitive result of the interview and 
+	"00" indicates that the interview was completed. */
 
 	drop if r_def!=00 
 
-	/* 	Third, INEGI recommends to drop all the interviews of people who were absent during the interview, 
-	since there is no labor information or the questionnaire was not applied to the absentees.
-	More specifically, they explain that I should eliminate those interviews where the variable "c_res" is equal to "2", 
-	since "c_res" shows the residence condition and "2" is for definitive absentees.  */
+	/* 	Third, INEGI recommends to drop all the interviews of people who 
+	were absent during the interview, since there is no labor information 
+	or the questionnaire was not applied to the absentees. 	More specifically, 
+	they explain that I should eliminate those interviews where the variable 
+	"c_res" is equal to "2", since "c_res" shows the residence condition and 
+	"2" is for definitive absentees.  */
 	
 	drop if c_res==2 
 
@@ -110,19 +115,22 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	cd 	"${root}/2_data-storage/merge_datasets"	
 	use merge_enoe115
 	destring t_loc, replace
-	tab t_loc // Data quality check: The variable now contains numeric variables from 1 to 4, rather than string values. 
+	tab t_loc /* Data quality check: The variable now contains numeric 
+	variables from 1 to 4, rather than string values. */
 	save "${root}/2_data-storage/merge_datasets/merge_enoe115.dta", replace
  
 	clear
 	cd 	"${root}/2_data-storage/merge_datasets"	
 	use merge_enoe119
 	destring t_loc, replace
-	tab t_loc // Data quality check: The variable now contains numeric variables from 1 to 4, rather than string values. 
+	tab t_loc /* Data quality check: The variable now contains numeric 
+	variables from 1 to 4, rather than string values. */
 	save "${root}/2_data-storage/merge_datasets/merge_enoe119.dta", replace
 	
 		
-// 	Now that this problem is solved, change the working directory to indicate Stata the file path of the merged datasets that will be pooled.
-// 	Then, I will save the pool dataset
+/* 	Now that this problem is solved, change the working directory 
+	to indicate Stata the file path of the merged datasets that will be pooled.
+ 	Then, I will save the pool dataset */
 	
 	clear
 	cd 		"${root}/2_data-storage/merge_datasets"
@@ -132,8 +140,9 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	append	using	merge_enoe119
 	save 	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta", replace
 
-// 	Now that I have the pool dataset for each of the 4 year/quarters considered for this study...	
-//	It is time to ask Stata to erase the merged_datasets as they are taking storage space and they are no longer needed.
+/*	Now that I have the pool dataset for each of the 4 year/quarters considered for this study...	
+	It is time to ask Stata to erase the merged_datasets as they are taking storage space and 
+	they are no longer needed. */
 	cd 		"${root}/2_data-storage/merge_datasets"
 	erase 	merge_enoe105.dta	
 	erase 	merge_enoe110.dta	

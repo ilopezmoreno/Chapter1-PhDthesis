@@ -53,8 +53,7 @@ A few pieces of documentation should accompany the clean dataset
 
 */
 
-cd	"${root}/2_data-storage/pool_dataset" 
-use pool_enoe_105_110_115_119-tidy.dta
+use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta" 
 
 
 
