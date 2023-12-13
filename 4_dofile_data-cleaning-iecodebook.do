@@ -7,7 +7,10 @@ iecodebook is a command from the Stata package "iefieldkit" created by DIME Anal
 
 iecodebook allows the to automatically perform the repetitive steps involved in cleaning data before further analysis. 
 
-It is particularly useful to drop, rename and recode variables in your dataset.
+The command "iecodebook" is particularly useful to 
+	1. Drop variables in the dataset that are not going to be used
+	2. Re-label variable description in the dataset from spanish to english
+	3. Recode variables in your dataset.
 
 iecodebooks allow researchers to document the cleaned data in a format that is both human and machine-readable.
 
@@ -31,13 +34,14 @@ Instead, code-replicants just need to ask stata to apply
 the iecodebook.xlsx that I already did. 
 */
 
-* iecodebook template using "${root}/iecodebook.xlsx", replace // *** De-activated for reproducibility purposes. 
+		* iecodebook template using "${root}/iecodebook.xlsx", replace 
+		// *** De-activated for reproducibility purposes. 
 
-/* Note to myself: Running the above command to generate a iecodebook takes 
-a considerable amount of time as the current dataset had almost 400 variables and 
-1.2 million observations. If you want to run this command in less time, a possible
-option is to ask stata in advance to drop the variables that you don't need for 
-the analysis, and just use the iecodebook to re-label and re-code variables. */ 
+/* Note to myself: The first time I ran this command, it took a 
+considerable amount of time as the current dataset had almost 400 variables 
+and 1.2 million observations. Therefore, I decided to drop the variables 
+that I don't need for the analysis, and just use the iecodebook to 
+re-label and re-code variables. */ 
 
 iecodebook apply using "${root}/iecodebook.xlsx", replace // This is the code that asks stata to apply my iecodebook to my dataset.
 

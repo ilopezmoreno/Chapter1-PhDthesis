@@ -4,7 +4,10 @@
 	• Final data analysis: the research team will decide on and compile 
 	main results for research outputs, polish, and structure 
 	
-	The goal of data analysis is to document the process to produce the 
-	tables and graphs that appear in the paper. 
+	During the exploratory data analysis, you shouldn't spend 
+	significant time formatting tables and graphs. 
+	You should spend time editing just the tables and graphs that the
+	team chose to be presented in the paper, and this formatting shouldn't
+	be done in this do-file. Instead, it should be done in separate do-files. 
 	
 	*/

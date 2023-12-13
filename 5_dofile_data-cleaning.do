@@ -3,30 +3,66 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 
 /* 
 
-Data cleaning should usually consider
+In the first do-file for data cleaning, I used the command "iecodebook" to 
+	1. Drop variables
+	2. Recode variables
+	3. Rename variables
+
+In this do-file I clean the dataset by making:   
+ 	
+	- Drop observations with specific variable values. 
+	- Missing value decisions 
+	- Destring variables. 
+	- Check consistency across variables.
 	
-	1. Explore the data using tabulations, summaries and 
-	descriptive plots, to find errors in the dataset. 
 	
-	2. Make sure that the unique ID has no duplicates, and 
-	anonymize/de-identify if its necessary. (You can use command "ieduplicates") 
-	
-	3. Include a clear explanation of all your corrections to the dataset in the dofile.
-		
-	4. Transform categorical string variables into destring labeled variables.
-	
-	5. Change variable labels to English (You can use the command "label variable")
-	
-	6. Remove values like -88, 999, etc that are commonly use to represent 
-	answers like "Don't know" or "declined to answer". In certain cases you will have to 
-	convert them in missing values, in other cases, you can drop them. 
-	
-	7. Use extended missing values instead of regular missing values "."
+The data-cleaning do-file should include a clear explanation of all my corrections to the dataset.
+
+
+	- Missing value decisions. 
+	For example, remove values like -88, 999, etc that are commonly use to represent answers 
+	like "Don't know" or "declined to answer". In certain cases you will have to convert 
+	them in missing values, in other cases, you can drop them.
+	You can use extended missing values instead of regular missing values "."
 	The options of extended missing values are: 
 	.d = "Dont know"
 	.r = "Refused to answer"
 	.s = "Skipped"
 	Note: This missing values can also be labeled.
+	
+	- Destring variables. 
+	For example, Transform categorical string variables into destring labeled variables.
+	
+	- Check consistency across variables. For example:
+	If a respondent is male, then it cannot be pregnant. 
+	If a respondent said they are not working, then they shouldn't have a salary.
+	You can fin errors in the dataset by exploring the data using tabulations, 
+	summaries and descriptive plots.
+	
+	- Unique ID
+	Make sure that the unique ID has no duplicates, and anonymize/de-identify 
+	if its necessary. (You can use command "ieduplicates")
+	
+	- Relabel 
+	Change variable labels to English (You can use the command "label variable")
+
+	- Recode 
+	For example, in certain cases 
+	
+Data cleaning should usually consider
+	
+
+	
+	2.  
+	
+		
+	4. 
+	
+	5. 
+	
+	6.  
+	
+	7. 
 	
 	8. Try not to change the variables names/codes, unless it is necessary. 
 	Renaming variables make it harder to find correspondance between variables and survey questions.
@@ -70,9 +106,8 @@ tab clase1 if eda<=14 /* Data quality check:
 There are kids betwen 12 and 14 years old that reported being economically active. 
 However, according to ILO and INEGI standards, there shouldn't be in the sample. */ 
 drop if eda<=14 
-summarize eda // Minimum age in the sample 15. Maximum age in the sample 98.
-
-
+assert eda>=15 & !missing(eda) // Data quality check: Assertion is true. 
+summarize eda // Data quality check: Minimum age in the sample 15, maximum age 98.
 
 
 // MISSING VALUES DECISIONS
@@ -86,17 +121,16 @@ replace hij5c=. if hij5c==0
 specified if they had kids. Therefore, I will replace "5" as a missing value*/
 tab hij5c if hij5c==5 & sex==2
 replace hij5c=. if hij5c==5 & sex==2
-fre hij5c // Data quality check: Now there are no  
+fre hij5c   
 
 fre e_con /* The variable "e_con" captures the marital status of the respondents. 
 This variable has few observations that were categorize as "9" for those who "Doesn't 
 know their marital situation". Therefore, I will replace "9" as a missing value */
-replace e_con=. if e_con==9
-
+replace e_con=.d if e_con==9 
 
 * The variable "cs_p13_1" that captures the level of education, includes 273 observations that were categorized as "99" for those who answered "Doesn't Know"
 tab cs_p13_1
 tab cs_p13_1, nolabel
 * Therefore, I will replace "99" as a missing value
-replace cs_p13_1=. if cs_p13_1==99 // Data quality check: 273 real changes made.
+replace cs_p13_1=.d if cs_p13_1==99 
 
