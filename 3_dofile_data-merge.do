@@ -1,25 +1,13 @@
 clear 
 global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 
-*******************
-* DATA FLOW CHART *
-*******************
-
-/*	Data flow charts specify which datasets are needed to create the main 
-	analysis dataset and how they may be combined by either appending 
-	or merging datasets.
-
-	Every original dataset that is mentioned in a data flow chart should be 
-	listed in the data linkage table.
-
-	For more info -> https://dimewiki.worldbank.org/Data_Flow_Charts */
-	
 /* 	This do-file includes the following sections
 	1. Data cleaning based on INEGI criteria. 
 	2. Merge the datasets for each of the year/quarters considered for the study. 
 	3. Append all the merged datasets to create a unique pool dataset 
 	4. Create a unique identification variable based on INEGI criteria 
-	5. Compress the pool dataset. */
+	5. Drop irrelevant variables
+	6. Compress the pool dataset. */
 
 /* 	INEGI recommends to always uses the SDEM dataset as the reference dataset 
 	and then merge it with the datasets that includes the questions that you are interested in. 

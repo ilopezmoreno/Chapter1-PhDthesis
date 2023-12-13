@@ -4,10 +4,9 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 /* 
 
 In the first do-file for data cleaning, I used the command "iecodebook" to 
-	1. Drop variables
-	2. Recode variables
-	3. Rename variables
-
+	- Switch variable labels from english to spanish. 
+	- Recode variables. 
+	
 In this do-file I clean the dataset by making:   
  	
 	- Drop observations with specific variable values. 
@@ -49,33 +48,19 @@ The data-cleaning do-file should include a clear explanation of all my correctio
 	- Recode 
 	For example, in certain cases 
 	
-Data cleaning should usually consider
 	
 
-	
-	2.  
-	
-		
-	4. 
-	
-	5. 
-	
-	6.  
-	
-	7. 
+
 	
 	8. Try not to change the variables names/codes, unless it is necessary. 
 	Renaming variables make it harder to find correspondance between variables and survey questions.
 	
-	9. Check consistency across variables. For example:
-	If a respondent is male, then it cannot be pregnant. 
-	If a respondent said they are not working, then they shouldn't have a salary. 
+
 
 	10. High frequency checks and data quality checks.
 	
 	11. Create flag variables that identify observations with inconsistent values. 
 	
-	12. Compress your dataset to reduce the 
 	
 A few pieces of documentation should accompany the clean dataset	
 	1. A variable dictionary/codebook listing details about each variable  
