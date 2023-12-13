@@ -23,7 +23,7 @@ https://www.youtube.com/watch?v=zm6eoMU09dA&t=1174s
 
 */
 
-use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta" 
+use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta" 
 
 /* The following line of code is used to generate the excel file "iecodebook"
 However, those that want to replicate my code, doesn't need to generate a iecodebook. 
@@ -33,17 +33,21 @@ Therefore, the code to generate a new iecodebook is current de-activated.
 Instead, code-replicants just need to ask stata to apply 
 the iecodebook.xlsx that I already did. 
 */
+		// De-activated for reproducibility purposes. 
+		*  iecodebook template using "${root}/iecodebook.xlsx", replace 
+		// De-activated for reproducibility purposes. 
 
-		* iecodebook template using "${root}/iecodebook.xlsx", replace 
-		// *** De-activated for reproducibility purposes. 
-
-/* Note to myself: The first time I ran this command, it took a 
-considerable amount of time as the current dataset had almost 400 variables 
-and 1.2 million observations. Therefore, I decided to drop the variables 
-that I don't need for the analysis, and just use the iecodebook to 
-re-label and re-code variables. */ 
+/* 	Note to myself: The first time I ran this command, it took a 
+	considerable amount of time as the current dataset had almost 400 variables 
+	and 1.2 million observations. Therefore, I decided to drop the variables 
+	using stata rather than using iecodebook. 
+	I will use the iecodebook only to re-label and re-code variables. */ 
 
 iecodebook apply using "${root}/iecodebook.xlsx", replace // This is the code that asks stata to apply my iecodebook to my dataset.
+
+fre e_con
+fre emp_ppal
+fre cs_p13_1
 
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta", replace
 

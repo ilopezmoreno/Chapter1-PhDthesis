@@ -22,9 +22,9 @@ c.w_mun_eda 		//  Average age of women in the municipality
 
 
 global household_characteristics /// 
-ib(1).ur 			/// Living in an urban area (Base category: 1. Living in urban areas)
-ib(4).t_loc 		/// Number of inhabitants in the locality where they live (Base category: 4. Locality with less than 2,500 inhabitants)
-ib(9).ent			// Mexican state where the household is located - Fixed effect at the state level (Base category: 9. Mexico City) 
+ib(1).ur 			/// Urban/rural identifier (Base category: 1. Living in urban areas)
+ib(4).t_loc 		/// Locality population size (Base category: 4. Locality with less than 2,500 inhabitants)
+ib(9).ent			//  Mexican state where the household is located - Fixed effect at the state level (Base category: 9. Mexico City) 
  
 global individual_characteristics /// 
 c.eda##c.eda 		/// Age and age squared
