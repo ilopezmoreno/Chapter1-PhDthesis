@@ -47,6 +47,7 @@ cd 	"${root}/2_data-storage/municipal_data"
 	stratum_mlow_municipal		///
 	stratum_mhigh_municipal		///
 	stratum_high_municipal		///
+	surveys_entmun 				///
 	w_econ_mun_divor			///
 	w_econ_mun_freeu            ///
 	w_econ_mun_marri            ///
@@ -91,19 +92,69 @@ Note: merge_w_mun_nkids is the only one that didn't merge all
 */
 
 
+order ent_mun_per surveys_entmun, first
+
+/*
+ent_mun_per		surveys_entmun
+	..10.3			52
+	..14.3			110
+	..19.3			93
+	..19.4			84
+	..20.3			1082
+	..20.4			825
+	..21.4			157
+	..24.4			66
+	..26.3			90
+	..26.4			85
+	..28.3			46
+	..28.4			34
+	..29.3			181
+	..29.4			217
+	..31.3			701
+	..31.4			336
+	..5.3			32
+	..5.4			39
+	..8.3			36
+	..8.4			79
+*/
+
+/* 	Note to myself: 
+	There are some cases where the ENOE survey is not indicating a value in the municipality variable. 
+	Instead, the municipality variable has a missing value "."
+	
+	It can be observed that this problem is only happening in period 3 and 4. Meaning 2015 & 2019
+	
+*/
+
+
+// DATA TRANSFORMATION 
+
+	// This will show the percentage of people that migrated to keep or maintain their current job.
+	gen migration_mun = (100 * migra_mun)
+	summarize migration_mun // Mean: 3.07%  
+	drop migra_mun	
+
 // CONSISTENCY CHECKS 
 
-	
+	/* 	There are a few municipalities reporting that there are no women reporting having kids. 
+		I will check what's the number of respondents that each municipality had */
+	tab surveys_entmun w_mun_nkids if w_mun_nkids==0
+	/* 	The number of respondents in those municipalities is maximum 56. 
+		It is likely that considering the low number of respondents, 
+		there were no women in the municipality between 20 and 35 years and with kids.	*/
+
+		
+		
 	// 	SECTORAL DISTRIBUTION OF EMPLOYMENT
 	
 				summarize agrishare_mun indushare_mun servishare_mun unspeshare_mun
 				// 	Minimum value: 0. Maximum value: 1
 				
-				// 	I need to transform the variables from 0-1 to 0-100
-				gen one_agri = (100 * agrishare_mun)
-				gen one_ind = (100 * indushare_mun)
-				gen one_serv = (100 * servishare_mun)
-				gen one_unsp = (100 * unspeshare_mun)
+				// Data transformation:	I need to transform the variables from 0-1 to 0-100
+				gen one_agri = 	(100 * agrishare_mun)
+				gen one_ind = 	(100 * indushare_mun)
+				gen one_serv = 	(100 * servishare_mun)
+				gen one_unsp = 	(100 * unspeshare_mun)
 				drop agrishare_mun indushare_mun servishare_mun unspeshare_mun
 					rename one_agri sde_mun_agri
 					rename one_ind sde_mun_indu
@@ -141,8 +192,7 @@ Note: merge_w_mun_nkids is the only one that didn't merge all
 					tab dif_ind 
 					// Data quality check: All values are equal to zero. Variable values are correct.
 					drop min_ind max_ind dif_ind
-					
-					
+										
 					sort ent_mun
 					bysort ent_mun: egen min_serv=min(sde_mun_serv)
 					bysort ent_mun: egen max_serv=max(sde_mun_serv)

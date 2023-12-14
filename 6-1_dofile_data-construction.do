@@ -55,13 +55,15 @@ tab ent if mun==.
 	
 // 	Create a variable that shows the number of people 
 // 	that were interviewed in each municipality. 
-egen surveys_entmun = total(eda>=14), by(ent_mun)
-summarize surveys_entmun // Mean: 2,458 respondents. Maximum: 7,714. Minimum: 2. 
+	egen surveys_entmun = total(eda>=14), by(ent_mun_per)
+	summarize surveys_entmun // Mean: 2,458 respondents. Maximum: 7,714. Minimum: 2. 
+		//	Now ask stata to store the 		
+			preserve
+			collapse (mean) surveys_entmun [fweight=fac], by(ent_mun_per) 
+			save "${root}/2_data-storage/municipal_data/surveys_entmun.dta", replace
+			restore
 
-
-
-
-
+			
 /* 	Now it is time to create the variables that will show the 
 	SECTORAL DISTRIBUTION OF EMPLOYMENT at the municipal level */
 
@@ -250,17 +252,17 @@ fre rama_est1
  	Using the variable soc_str "socioeconomic stratum", create dummy variables to identify  
 	women with different socio-economic stratum at the municipal level. */		
 				generate w_stratum_low=.
-					replace w_stratum_low=1 if soc_str==10 & female==1
-					replace w_stratum_low=0 if soc_str!=10 & female==1					
+					replace w_stratum_low=1 if soc_str==1 & female==1
+					replace w_stratum_low=0 if soc_str!=1 & female==1					
 				generate w_stratum_mlow=.
-					replace w_stratum_mlow=1 if soc_str==20 & female==1
-					replace w_stratum_mlow=0 if soc_str!=20 & female==1					
+					replace w_stratum_mlow=1 if soc_str==2 & female==1
+					replace w_stratum_mlow=0 if soc_str!=2 & female==1					
 				generate w_stratum_mhigh=.
-					replace w_stratum_mhigh=1 if soc_str==30 & female==1
-					replace w_stratum_mhigh=0 if soc_str!=30 & female==1					
+					replace w_stratum_mhigh=1 if soc_str==3 & female==1
+					replace w_stratum_mhigh=0 if soc_str!=3 & female==1					
 				generate w_stratum_high=.
-					replace w_stratum_high=1 if soc_str==40 & female==1
-					replace w_stratum_high=0 if soc_str!=40 & female==1
+					replace w_stratum_high=1 if soc_str==4 & female==1
+					replace w_stratum_high=0 if soc_str!=4 & female==1
 		//	Now ask stata to calculate the % of women with different level of education at the municipal level.
 				preserve
 				collapse (mean) w_stratum_low [fweight=fac], by(ent_mun_per) 

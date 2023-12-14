@@ -48,6 +48,8 @@ iecodebook apply using "${root}/iecodebook.xlsx", replace // This is the code th
 fre e_con
 fre emp_ppal
 fre cs_p13_1
+fre p3o
+fre per
 
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta", replace
 
