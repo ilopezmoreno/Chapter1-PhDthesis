@@ -59,10 +59,23 @@ tab ent if mun==.
 	summarize surveys_entmun // Mean: 2,458 respondents. Maximum: 7,714. Minimum: 2. 
 		//	Now ask stata to store the 		
 			preserve
-			collapse (mean) surveys_entmun [fweight=fac], by(ent_mun_per) 
+			collapse (count) surveys_entmun, by(ent_mun_per) 
 			save "${root}/2_data-storage/municipal_data/surveys_entmun.dta", replace
 			restore
 
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 /* 	Now it is time to create the variables that will show the 
 	SECTORAL DISTRIBUTION OF EMPLOYMENT at the municipal level */
@@ -118,27 +131,32 @@ fre rama_est1
 /*  BUILDING CONTROL VARIABLE: Share of women with different education levels at the municipal level. 
  	Use the variable cs_p13_1 "educational level" to calculate the 
 	Share of WOMEN with different level of education at the municipal level */
-			fre cs_p13_1
-				generate w_educ_prim_orless=. 	// Share of women with primary school or less 
-					replace w_educ_prim_orless=1 if cs_p13_1<=2 & female==1
-					replace w_educ_prim_orless=0 if cs_p13_1>=3 & female==1
-				generate w_educ_secon=. 		// Share of women with secondary school 
-					replace w_educ_secon=0 if cs_p13_1!=3 & female==1		
-					replace w_educ_secon=1 if cs_p13_1==3 & female==1 	// 3 = Secondary
-				generate w_educ_high=.			// Share of women with high school 
-					replace w_educ_high=0 if cs_p13_1!=4 & female==1		
-					replace w_educ_high=1 if cs_p13_1==4 & female==1 	// 4 = High school
-				generate w_educ_tech=.			// Share of women with techical career 
+	fre cs_p13_1
+	drop if cs_p13_1==.d // If i don't drop this missing values, the variables are not equal to 100. 
+
+				generate w_educ_prim_orless=. 									// Women with primary school or less 
+					replace w_educ_prim_orless=0 if cs_p13_1>=3 & female==1					
+					replace w_educ_prim_orless=1 if cs_p13_1==2 & female==1
+					replace w_educ_prim_orless=1 if cs_p13_1==1 & female==1
+					replace w_educ_prim_orless=1 if cs_p13_1==0 & female==1
+				generate w_educ_secon=. 										// Women with secondary school 
+					replace w_educ_secon=0 if cs_p13_1>=0 & female==1		
+					replace w_educ_secon=1 if cs_p13_1==3 & female==1 			// 3 = Secondary
+				generate w_educ_high=.											// Share of women with high school 
+					replace w_educ_high=0 if cs_p13_1>=0 & female==1		
+					replace w_educ_high=1 if cs_p13_1==4 & female==1 			// 4 = High school
+				generate w_educ_tech=.											// Share of women with techical career 
 					replace w_educ_tech=0 if cs_p13_1>=0 & female==1
-					replace w_educ_tech=1 if cs_p13_1==5 & female==1 	// 5 = Teacher traning college
-					replace w_educ_tech=1 if cs_p13_1==6 & female==1 	// 6 =	Techical career	
-				generate w_educ_grad=.			// Share of women with graduate degree
+					replace w_educ_tech=1 if cs_p13_1==5 & female==1 			// 5 = Teacher traning college
+					replace w_educ_tech=1 if cs_p13_1==6 & female==1 			// 6 =	Techical career	
+				generate w_educ_grad=.											// Share of women with graduate degree
 					replace w_educ_grad=0 if cs_p13_1>=0 & female==1
-					replace w_educ_grad=1 if cs_p13_1==7 & female==1 	// 7 =	Bachelor's degree		
-				generate w_educ_postg=.			// Share of women with post-graduate degree
+					replace w_educ_grad=1 if cs_p13_1==7 & female==1 			// 7 =	Bachelor's degree		
+				generate w_educ_postg=.											// Share of women with post-graduate degree
 					replace w_educ_postg=0 if cs_p13_1>=0 & female==1
-					replace w_educ_postg=1 if cs_p13_1==8 & female==1 	// 8 = Masters's degree
-					replace w_educ_postg=1 if cs_p13_1==9 & female==1 	// 9 = Ph.D. degree	
+					replace w_educ_postg=1 if cs_p13_1==8 & female==1 			// 8 = Masters's degree
+					replace w_educ_postg=1 if cs_p13_1==9 & female==1 			// 9 = Ph.D. degree	
+					 							
 		//	Now ask stata to calculate the % of women with different level of education at the municipal level. 	
 				preserve
 					collapse (mean) w_educ_prim_orless [fweight=fac], by(ent_mun_per) 
@@ -181,27 +199,26 @@ fre rama_est1
  	Using the variable e_con "marital status", create dummy variables to identify  
 	different marital status of women */ 
 		fre e_con
-				generate w_freeunion=.
+		drop if e_con==.d // If i don't drop this missing values, the variables are not equal to 100.
+				generate 	w_freeunion=.
 					replace w_freeunion=1 	if e_con==1 & female==1
 					replace w_freeunion=0 	if e_con!=1 & female==1 
-				generate w_separated=.
+				generate 	w_separated=.
 					replace w_separated=1 	if e_con==2 & female==1
 					replace w_separated=0 	if e_con!=2 & female==1
-				generate w_divorced=.
+				generate 	w_divorced=.
 					replace w_divorced=1 	if e_con==3 & female==1
 					replace w_divorced=0 	if e_con!=3 & female==1
-				generate w_widowed=.
+				generate 	w_widowed=.
 					replace w_widowed=1 	if e_con==4 & female==1
 					replace w_widowed=0 	if e_con!=4 & female==1
-				generate w_married=.
+				generate 	w_married=.
 					replace w_married=1 	if e_con==5 & female==1
 					replace w_married=0 	if e_con!=5 & female==1
-				generate w_single=.
+				generate 	w_single=.
 					replace w_single=1 		if e_con==6 & female==1
 					replace w_single=0 		if e_con!=6 & female==1	
-				generate w_na=.
-					replace w_single=1 		if e_con==.d & female==1
-					replace w_single=0 		if e_con!=.d & female==1	
+
 		
 		//	Now ask stata to calculate the % of women with different level of education at the municipal level.
 				
@@ -239,12 +256,6 @@ fre rama_est1
 				collapse (mean) w_single [fweight=fac], by(ent_mun_per)
 				rename w_single w_econ_mun_singl 
 				save "${root}/2_data-storage/municipal_data/w_econ_mun_singl.dta", replace
-				restore
-				
-				preserve
-				collapse (mean) w_na [fweight=fac], by(ent_mun_per) 
-				rename w_na w_econ_mun_na
-				save "${root}/2_data-storage/municipal_data/w_econ_mun_na.dta", replace
 				restore
 		
 
@@ -354,3 +365,5 @@ fre rama_est1
 			rename n_hij w_mun_nkids
 			save "${root}/2_data-storage/municipal_data/w_mun_nkids.dta", replace
 			restore			
+
+			

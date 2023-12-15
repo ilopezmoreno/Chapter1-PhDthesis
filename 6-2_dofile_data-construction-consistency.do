@@ -51,7 +51,6 @@ cd 	"${root}/2_data-storage/municipal_data"
 	w_econ_mun_divor			///
 	w_econ_mun_freeu            ///
 	w_econ_mun_marri            ///
-	w_econ_mun_na               ///
 	w_econ_mun_separ            ///
 	w_econ_mun_singl            ///
 	w_econ_mun_widow            ///
@@ -91,7 +90,16 @@ Note: merge_w_mun_nkids is the only one that didn't merge all
 
 */
 
+/* 		Moreover, there are a few municipalities reporting that there are no women (20 to 35 years old) with kids. 
+		I will check what's the number of respondents that each municipality had */
+		tab surveys_entmun w_mun_nkids if w_mun_nkids==0
+/* 		he number of respondents in those municipalities is maximum 56. 
+		It is likely that considering the low number of respondents, 
+		there were no women in the municipality between 20 and 35 years and with kids.	*/
 
+
+
+summarize surveys_entmun
 order ent_mun_per surveys_entmun, first
 
 /*
@@ -122,88 +130,147 @@ ent_mun_per		surveys_entmun
 	There are some cases where the ENOE survey is not indicating a value in the municipality variable. 
 	Instead, the municipality variable has a missing value "."
 	
-	It can be observed that this problem is only happening in period 3 and 4. Meaning 2015 & 2019
+	This problem is only happening in period 3 and 4. Meaning 2015 & 2019
+	This is something from the dataset itself. I will have to ocontact INEGI to check what's the problem. 
 	
 */
 
-
-// DATA TRANSFORMATION 
-
-	// This will show the percentage of people that migrated to keep or maintain their current job.
-	gen migration_mun = (100 * migra_mun)
-	summarize migration_mun // Mean: 3.07%  
-	drop migra_mun	
-
+	
+		
 // CONSISTENCY CHECKS 
 
-	/* 	There are a few municipalities reporting that there are no women reporting having kids. 
-		I will check what's the number of respondents that each municipality had */
-	tab surveys_entmun w_mun_nkids if w_mun_nkids==0
-	/* 	The number of respondents in those municipalities is maximum 56. 
-		It is likely that considering the low number of respondents, 
-		there were no women in the municipality between 20 and 35 years and with kids.	*/
+	gen total_sde_mun = agrishare_mun + indushare_mun + servishare_mun + unspeshare_mun
+	tab total_sde_mun // CONSISTENCY check. Result: All variables are equal to .99 or 1
+	drop total_sde_mun 
 
-		
-		
-	// 	SECTORAL DISTRIBUTION OF EMPLOYMENT
+	gen total_stratum = str_low + str_mlow + str_mhigh + str_high
+	tab total_stratum // CONSISTENCY check. Result: All variables are equal to .99 or 1
+	drop total_stratum 	
+
+	gen total_w_stratum = w_str_low + w_str_mlow + w_str_mhigh + w_str_high
+	tab total_w_stratum // CONSISTENCY check. Result: All variables are equal to .99 or 1
+	drop total_w_stratum 		
 	
-				summarize agrishare_mun indushare_mun servishare_mun unspeshare_mun
-				// 	Minimum value: 0. Maximum value: 1
+	gen total_educ =  w_educ_mun_prim + w_educ_mun_secon + w_educ_mun_high + /// 
+					  w_educ_mun_tech + w_educ_mun_grad  + w_educ_mun_postg 
+	tab total_educ // CONSISTENCY check. Result: All variables are equal to .99 or 1
+	drop total_educ 	
+	
+	gen total_econ = w_econ_mun_divor + w_econ_mun_freeu + w_econ_mun_marri + ///
+					 w_econ_mun_separ + w_econ_mun_singl + w_econ_mun_widow 
+	tab total_econ // CONSISTENCY check. Result: All variables are equal to .99 or 1
+	drop total_econ 	
+	
+	
+
+// CONVERT VARIABLES VALUES FROM (O-1) TO (0%-100%)
+
+		// 	Creating the loop 
+			local municipal_variables 	///
+			agrishare_mun indushare_mun servishare_mun unspeshare_mun /// 
+			str_low str_mlow str_mhigh str_high /// 
+			w_econ_mun_divor w_econ_mun_freeu w_econ_mun_marri w_econ_mun_separ w_econ_mun_singl w_econ_mun_widow ///
+			w_educ_mun_grad w_educ_mun_high w_educ_mun_postg w_educ_mun_prim w_educ_mun_secon w_educ_mun_tech /// 
+			w_str_high w_str_low w_str_mhigh w_str_mlow /// 
+			migra_mun 	
+	
+			foreach variable of local municipal_variables {
 				
-				// Data transformation:	I need to transform the variables from 0-1 to 0-100
-				gen one_agri = 	(100 * agrishare_mun)
-				gen one_ind = 	(100 * indushare_mun)
-				gen one_serv = 	(100 * servishare_mun)
-				gen one_unsp = 	(100 * unspeshare_mun)
-				drop agrishare_mun indushare_mun servishare_mun unspeshare_mun
-					rename one_agri sde_mun_agri
-					rename one_ind sde_mun_indu
-					rename one_serv sde_mun_serv
-					rename one_unsp sde_mun_unsp
+				sort ent_mun_per
+				bysort ent_mun_per: egen min=min(`variable')
+				bysort ent_mun_per: egen max=max(`variable')
+				gen dif = min - max
+				tab dif // Data quality check: All values are equal to zero. Variable values are correct.
+				drop min max dif
+								
+				generate one_`variable' = (100 * `variable')      
+				drop `variable'	
+			}	
+	
+// RENAME VARIABLES 	
+	
+			rename one_agrishare_mun 			sde_mun_agri
+			rename one_indushare_mun 			sde_mun_indu
+			rename one_servishare_mun 			sde_mun_serv
+			rename one_unspeshare_mun 			sde_mun_unsp	
 				
-				/* 	Now I need to do the consistency check.
-				 	With the following code, I want to check if the sum between 
-					the four variables created are equal to 100. */
-					gen total_sde_mun = sde_mun_agri + sde_mun_indu + sde_mun_serv + sde_mun_unsp
-					tab total_sde_mun // Data quality check.
-					// Result: All variables are equal to 100 or 99.9999999
-					drop total_sde_mun 
-				
-				/* 	With the following code, I also want to check if each municipality has only 
-					one value for the sectoral distribution of employment in each sector. 
-					To do so, I will create two variables. 
-					The first one captures the minimum value for each municipality in each sector, 
-					while the second one captures the maximum value. 
-					If the difference between the maximum value and the minimum value is equal to 0, 
-					it means that the variables were created correctly. */
+			rename one_str_low 					ss_mun_low
+            rename one_str_mlow 				ss_mun_mlow
+            rename one_str_mhigh 				ss_mun_mhigh
+            rename one_str_high 				ss_mun_high
+
+			rename one_w_str_low 				w_mun_low
+            rename one_w_str_mlow 				w_mun_mlow
+            rename one_w_str_mhigh 				w_mun_mhig
+            rename one_w_str_high 				w_mun_high	
 			
-					sort ent_mun_per
-					bysort ent_mun_per: egen min_agri=min(sde_mun_agri)
-					bysort ent_mun_per: egen max_agri=max(sde_mun_agri)
-					gen dif_agri = min_agri - max_agri
-					tab dif_agri 
-					// Data quality check: All values are equal to zero. Variable values are correct.
-					drop min_agri max_agri dif_agri
-					
-					sort ent_mun
-					bysort ent_mun: egen min_ind=min(sde_mun_indu)
-					bysort ent_mun: egen max_ind=max(sde_mun_indu)
-					gen dif_ind = min_ind - max_ind
-					tab dif_ind 
-					// Data quality check: All values are equal to zero. Variable values are correct.
-					drop min_ind max_ind dif_ind
-										
-					sort ent_mun
-					bysort ent_mun: egen min_serv=min(sde_mun_serv)
-					bysort ent_mun: egen max_serv=max(sde_mun_serv)
-					gen dif_serv = min_serv - max_serv
-					tab dif_serv 
-					// Data quality check: All values are equal to zero. Variable values are correct.
-					drop min_serv max_serv dif_serv		
+			rename one_w_econ_mun_divor 		w_econ_mun_divor
+		    rename one_w_econ_mun_freeu 		w_econ_mun_freeu
+		    rename one_w_econ_mun_marri 		w_econ_mun_marri
+		    rename one_w_econ_mun_separ 		w_econ_mun_separ
+			rename one_w_econ_mun_singl 		w_econ_mun_singl
+		    rename one_w_econ_mun_widow			w_econ_mun_widow
+		
+		    rename one_w_educ_mun_prim			w_educ_mun_prim		
+		    rename one_w_educ_mun_secon 		w_educ_mun_secon		
+		    rename one_w_educ_mun_high 			w_educ_mun_high
+			rename one_w_educ_mun_tech 			w_educ_mun_tech		
+			rename one_w_educ_mun_grad	 		w_educ_mun_grad		
+		    rename one_w_educ_mun_postg 		w_educ_mun_postg		
+		
+			rename one_migra_mun				migration_mun 
 
-	
-		// 	SHARE OF WOMEN WITH DIFFERENT MARITAL STATUS AT THE MUNICIPAL LEVEL 
-				
+			
+		
+// FINAL CONSISTENCY CHECKS 
+
+	gen total_sde_mun 	= 	sde_mun_agri + sde_mun_indu + sde_mun_serv + sde_mun_unsp
+	gen total_stratum 	= 	ss_mun_low 	+ ss_mun_mlow + ss_mun_mhigh + ss_mun_high
+	gen total_w_stratum = 	w_mun_low + w_mun_mlow + w_mun_mhig + w_mun_high
+	gen total_econ 		= 	w_econ_mun_divor + w_econ_mun_freeu + w_econ_mun_marri + ///
+							w_econ_mun_separ + w_econ_mun_singl + w_econ_mun_widow	
+	gen total_educ 		=  	w_educ_mun_prim + w_educ_mun_secon + w_educ_mun_high + /// 
+							w_educ_mun_tech + w_educ_mun_grad  + w_educ_mun_postg 
+							
+	summarize total_sde_mun total_stratum total_w_stratum total_econ total_educ
+	// All variables are equal to 100. 
+		
+
+// RE-LABEL VARIABLES 
+
+		label variable sde_mun_agri 	"% of agricultural jobs at the municipal level"
+        label variable sde_mun_indu 	"% of industrial jobs at the municipal level"
+        label variable sde_mun_serv		"% of service jobs at the municipal level"
+        label variable sde_mun_unsp		"% of unspecified jobs at the municipal level"
+
+        label variable ss_mun_low 		"% of people from low socio-economic stratum at the municipal level"		
+        label variable ss_mun_mlow		"% of people from medium-low socio-economic stratum at the municipal level"
+        label variable ss_mun_mhigh		"% of people from medium-high socio-economic stratum at the municipal level"
+        label variable ss_mun_high		"% of people from high socio-economic stratum at the municipal level"		
+
+        label variable w_mun_low		"% of women from low socio-economic stratum at the municipal level"		
+        label variable w_mun_mlow		"% of women from medium-low socio-economic stratum at the municipal level"
+        label variable w_mun_mhig		"% of women from medium-high socio-economic stratum at the municipal level"
+        label variable w_mun_high		"% of women from high socio-economic stratum at the municipal level"		
+
+        label variable w_econ_mun_divor	"% of divorced women at the municipal level"		
+        label variable w_econ_mun_freeu	"% of free-union women at the municipal level"
+        label variable w_econ_mun_marri	"% of married women at the municipal level"
+        label variable w_econ_mun_separ	"% of separated women at the municipal level"
+        label variable w_econ_mun_singl	"% of single women at the municipal level"
+        label variable w_econ_mun_widow	"% of widowed women at the municipal level"
+      
+        label variable w_educ_mun_prim	"% of women with primary school or less at the municipal level"			
+        label variable w_educ_mun_secon	"% of women with secondary school at the municipal level"
+        label variable w_educ_mun_high	"% of women with high school school at the municipal level"
+        label variable w_educ_mun_tech	"% of women with technical career at the municipal level"	
+        label variable w_educ_mun_grad	"% of women with graduate degree at the municipal level"	
+        label variable w_educ_mun_postg	"% of women with post-graduate degree at the municipal level"
+
+		label variable ent_mun_per		"Municipality identifier in a specific year/quarter"
+		label variable surveys_entmun	"Total surveys carried out in the municipality in a specific year/quarter"
+		label variable w_mun_eda		"Average age of women at the municipal level"	
+        label variable w_mun_nkids		"Average number of kids from women between 20-35 years old at the municipal level"
 		
 		
-		
+save "${root}/2_data-storage/municipal_data/1_tidy_municipal_dataset.dta", replace		

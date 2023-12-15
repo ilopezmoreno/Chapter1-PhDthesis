@@ -43,6 +43,13 @@ the iecodebook.xlsx that I already did.
 	using stata rather than using iecodebook. 
 	I will use the iecodebook only to re-label and re-code variables. */ 
 
+fre e_con
+fre emp_ppal
+fre cs_p13_1
+fre p3o
+fre per
+fre clase1
+	
 iecodebook apply using "${root}/iecodebook.xlsx", replace // This is the code that asks stata to apply my iecodebook to my dataset.
 
 fre e_con
@@ -50,6 +57,7 @@ fre emp_ppal
 fre cs_p13_1
 fre p3o
 fre per
+fre clase1
 
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta", replace
 

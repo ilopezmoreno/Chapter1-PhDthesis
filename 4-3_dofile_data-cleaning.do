@@ -185,9 +185,10 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 			label value n_hij n_hij
 			fre n_hij
 			tab n_hij if female==1
+
+			
 		
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta", replace	
-	
 	
 
 	
