@@ -127,7 +127,19 @@ cd "${root}/4_outputs/regression_results/probit_sde/regressions"
 	vce(cluster count_entmun) // Clustered standard errors 
 	outreg2 using 	probit_sde_05101519.xls, label dec(4)
 	estimates save 	probit_sde_05101519_meninteraction_`sde_mun'.ster, replace			
-		
+	
+	
+	// REGRESSION ALL TOGETHER.
+	probit clase1 	/// 
+	$individual_characteristics 	///
+	$household_characteristics 		///
+	c.`sde_mun'##i.female	 	/// SECTORAL DISTRIBUTION OF EMPLOYMENT interaction with sex
+	ib(4).per		/// Year/quarter fixed effect (Base category: 4. 1st quarter of 2019)
+	[pweight=fac], 	/// 
+	vce(cluster count_entmun) // Clustered standard errors 
+	outreg2 using 	probit_sde_05101519.xls, label dec(4)
+	estimates save 	probit_sde_05101519_together_`sde_mun'.ster, replace		
+	
 	}
 
  
@@ -216,7 +228,25 @@ foreach sde_mun of local sde {
 							  
 							  
 							  
-					  
+// AVERAGE MARGINAL EFFECTS - ALL TOGETHER
+// MEN AND WOMEN (SDE##FEMALE)
+// Creating loop 
+local sde ///
+sde_mun_agri sde_mun_indu sde_mun_serv 	
+foreach sde_mun of local sde {
+	cd	"${root}/4_outputs/regression_results/probit_sde/regressions" // Indicate the working directory where the regression results were saved.
+	estimates use probit_sde_05101519_together_`sde_mun'.ster // Ask stata to open the regression results 
+	estimates esample:
+	probit // Indicate stata that the regression results were obtained using the command "probit"
+	
+	// Now that you have the regression results, you can ask stata to calculate the average marginal effects
+	margins, at(`sde_mun'=(0(1)100)) atmeans post
+	// Now ask stata to save the estimation results 
+	cd "${root}/4_outputs/regression_results/probit_sde/margins_results"
+	outreg2 using  margins_probit_sde_05101519_together_`sde_mun'.xls, label dec(4)
+	estimates save margins_probit_sde_05101519_together_`sde_mun'.ster, replace 
+							  }
+
 							  
 							  
 	
