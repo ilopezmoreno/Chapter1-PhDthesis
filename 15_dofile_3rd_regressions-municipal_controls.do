@@ -532,50 +532,148 @@ graph save "Graph" 	"${root}/4_outputs/regression_results/probit_sde/marginsplot
 
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+// MARGINSPLOT
+/*
+Running the command "margins" takes a lot of time to stata. 
+Usually, Stata only allows to use the command "marginsplot" inmediately after using the command "margins".
+This is problematic, because I created loops to run both the "probit" and the "margins" command. 
+However, there are some steps that I will follow to load the results obtained from the loops I created to use the command "margins".  
+
+To load the results obtained with the command "margins" (also known as average marginal effects), 
+I need to start by asking Stata to clear the interface. 
+*/
+clear 
+// Next step is to ask Stata to open the dataset that was used to obtained the margins results.
+use "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-municipal.dta"
+// Next step is to change the working directory to the path where the margins results were stored in my computer. 
+cd "${root}/4_outputs/regression_results/probit_sde/margins_results"
 
 
+/* The next and final step is to ask Stata to open the regressions results that were stored in the .ster format. 
+   Then, you need to indicate that those results were obtained using the command "margins"  */
 
+   
+   
+// Creating the loops
+// MARGINSPLOT FOR WOMEN
+// WITH MUNICIPAL CONTROLS AND WITH INTERACTION (SDE##SDE)
 
-// MARGINSPLOT FOR WOMEN 
 local sde ///
 sde_mun_agri sde_mun_indu sde_mun_serv 	
 
 	foreach sde_mun of local sde {
+	estimates use margins_probit_sde_05101519_women_`sde_mun'.ster
+	margins // This indicates Stata that the results were obtained using this command. 
 
-	graph use "${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_womeninteraction_`sde_mun'.gph"
-	gr_edit .plotregion1.plot1.style.editstyle area(linestyle(color(pink))) editcopy
+	// After following these steps, you can ask stata to run the command "marginsplot"
+	marginsplot, ///
+	title("Predicted probability that mexican women are economically active" "depending on the % of XYZ jobs in the municipality where they live") title(, size(small)) ///
+	ytitle("Predicted probability") ytitle(, size(vsmall)) ///
+	xtitle("Percentage of XYZ jobs in the municipality where they live") xtitle(, size(vsmall)) ///
+	ylabel(,labsize(vsmall)) xlabel(,labsize(vsmall)) ///
+	ylabel(0(0.1)1) ///
+	xlabel(0(20)100) ///
+	plotopts(msize(vsmall)) ///
+	legend(size(vsmall)) ///
+	graphregion(color(white)) 
+	graph save "Graph" "${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_women_`sde_mun'.gph", replace
+	graph close 
+	
+	graph use "${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_women_`sde_mun'.gph"
 	gr_edit .plotregion1.plot1.style.editstyle area(linestyle(width(vthin))) editcopy
 	gr_edit .plotregion1.plot2.style.editstyle marker(size(tiny)) editcopy
+	gr_edit .plotregion1.plot2.style.editstyle marker(symbol(smsquare)) editcopy
+	gr_edit .plotregion1.plot1.style.editstyle area(linestyle(color(pink))) editcopy
 	gr_edit .plotregion1.plot2.style.editstyle marker(fillcolor(pink)) editcopy
 	gr_edit .plotregion1.plot2.style.editstyle marker(linestyle(color(pink))) editcopy
-	gr_edit .plotregion1.plot2.style.editstyle marker(symbol(smsquare)) editcopy
 	gr_edit .plotregion1.plot2.style.editstyle line(color(pink)) editcopy
-	graph export 		"${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_womeninteraction_`sde_mun'.png", replace
-	graph save "Graph" 	"${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_womeninteraction_`sde_mun'.gph", replace
-	clear 
-	
-	}
-
-// MARGINSPLOT FOR MEN 
-local sde ///
-sde_mun_agri sde_mun_indu sde_mun_serv 	
-
-	foreach sde_mun of local sde {
-
-	graph use "${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_meninteraction_`sde_mun'.gph"
-	gr_edit .plotregion1.plot1.style.editstyle area(linestyle(width(vthin))) editcopy
-	gr_edit .plotregion1.plot2.style.editstyle marker(size(tiny)) editcopy
-	gr_edit .plotregion1.plot2.style.editstyle marker(symbol(smsquare)) editcopy
-	graph export 		"${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_meninteraction_`sde_mun'.png", replace
-	graph save "Graph" 	"${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_meninteraction_`sde_mun'.gph", replace
-	clear
-	
+	graph save "Graph" "${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_women_`sde_mun'.gph", replace
+	graph export "${root}/4_outputs/regression_results/probit_sde/marginsplots/marginsplot_probit_sde_05101519_women_`sde_mun'.png", replace 
+	graph close
 	}
 
 	
 	
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
