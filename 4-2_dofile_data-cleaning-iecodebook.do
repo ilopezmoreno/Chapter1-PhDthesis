@@ -34,7 +34,7 @@ Instead, code-replicants just need to ask stata to apply
 the iecodebook.xlsx that I already did. 
 */
 		// De-activated for reproducibility purposes. 
-		*  iecodebook template using "${root}/iecodebook.xlsx", replace 
+		*  iecodebook template using "${root}/iecodebook_chapter1.xlsx", replace 
 		// De-activated for reproducibility purposes. 
 
 /* 	Note to myself: The first time I ran this command, it took a 
@@ -50,7 +50,7 @@ fre p3o
 fre per
 fre clase1
 	
-iecodebook apply using "${root}/iecodebook.xlsx", replace // This is the code that asks stata to apply my iecodebook to my dataset.
+iecodebook apply using "${root}/iecodebook_chapter1.xlsx", replace // This is the code that asks stata to apply my iecodebook to my dataset.
 
 fre e_con
 fre emp_ppal

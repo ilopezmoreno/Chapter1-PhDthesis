@@ -83,6 +83,12 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	
 }
 
+
+
+
+
+
+
 // Now that the datasets are merged, I will append them all to create a unique pool dataset.  
 
 // 	Create a folder where the pool dataset is going to be stored
@@ -141,9 +147,7 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	
 //	UNIQUE IDENTIFICATION VARIABLE BASED ON INEGI CRITERIA	
 	
-// 	unique id for each household
-	egen house_id  = concat(cd_a ent con v_sel n_hog h_mud), 		punct(.)  
-// 	unique_id for each respondent
+  // 	unique_id for each respondent
 	egen person_id = concat(cd_a ent con v_sel n_hog h_mud n_ren), 	punct(.) 
 
 /* 	Data quality check: 
@@ -169,7 +173,7 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	should be used to create the ID variable, for this study it is necessary to include it
 	to uniquely identify individuals in the sample. */
 
-egen person_id_per = concat(cd_a ent con v_sel n_hog h_mud n_ren per), 	punct(.)
+egen person_id_per = concat(cd_a ent con v_sel n_hog h_mud n_ren per),	punct(.)
 duplicates report person_id_per
 
 /* Duplicates in terms of person_id_per
@@ -182,5 +186,11 @@ duplicates report person_id_per
 /* 	Now that the problem is solved, 
 	I should drop the person_id variable and only mantain person_id_per */
 	drop person_id
+	
+// Now let's do the same with the household identifier 
+// 	unique id for each household
+egen house_id_per  = concat(cd_a ent con v_sel n_hog h_mud per), 		punct(.)	
+	
+	
 
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta", replace
