@@ -61,11 +61,6 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 	.s = "Skipped"
 	Note: This missing values can also be labeled. */ 
 	
-		/* The variable "e_con" captures the marital status of the respondents. 
-		This variable has few observations that were categorize as "9" for those who "Doesn't 
-		know their marital situation". Therefore, I will replace "9" as a missing value */
-		fre e_con 
-		replace e_con=.d if e_con==9 
 
 		/* The variable hij5c captures the number of sons or daughters that women have had.
 		This variable includes observation that were categorize as "0" for those who "Doesn't apply" */
@@ -77,11 +72,6 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 		specified if they had kids. Therefore, I will replace "5" as a missing value*/
 		replace hij5c=.r if hij5c==5 // .r is used to identified those women that refused to answer.
 
-		/* The variable "cs_p13_1" that captures the level of education, includes 273 observations 
-		that were categorized as "99" for those who answered "Doesn't Know" */
-		fre cs_p13_1
-		* Therefore, I will replace "99" as a missing value
-		replace cs_p13_1=.d if cs_p13_1==99 	
 
 /*	Unique ID
 	I will check again that the unique ID has no duplicates. 

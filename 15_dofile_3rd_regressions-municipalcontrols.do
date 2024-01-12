@@ -18,14 +18,16 @@ global individual_characteristics ///
 c.eda##c.eda 		/// Age and age squared
 ib(5).e_con 		/// Marital status (Base category: 5. Being married)
 ib(0).cs_p13_1 		/// Level of education (Base category: 0. No studies at all)
-ib(4).soc_str 		//  Socio-economic stratum (Base category: 4. High socioeconomic stratum)
 
 global household_characteristics /// 
 c.hh_eda 			/// Age of the household head
 ib(1).ur 			/// Urban/rural identifier (Base category: 1. Living in urban areas)
 ib(4).t_loc 		/// Locality population size (Base category: 4. Locality with less than 2,500 inhabitants)
 ib(0).hh_cs_p13_1 	/// Level of education of the household head. (Base category: 0. No studies at all)
-ib(0).hh_female 	// Sex of the household head. Base category: 0 - Male 
+ib(0).hh_female 	/// Sex of the household head. Base category: 0 - Male 
+ib(4).soc_str 		/// Socio-economic stratum (Base category: 4. High socioeconomic stratum)
+ib(4).hh_members	/// Total of household members
+ib(0).hh_kids		//  Presence of kids in the household. 
 
 global municipal_characteristics /// 
 c.migration_mun		/// % of residents in the municipality who migrated for their current job.
@@ -39,8 +41,6 @@ c.ss_mun_low 		/// % of people in the municipality from a low socioeconomic stra
 c.ss_mun_mlow		/// % of people in the municipality from a medium-low socioeconomic stratum
 c.w_mun_nkids 		/// Average children per woman aged 20-35 in the municipality.
 c.w_mun_eda 		//  Average age of women in the municipality
-
-
 
 
 

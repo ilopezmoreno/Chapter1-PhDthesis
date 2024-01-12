@@ -1,5 +1,6 @@
 clear
 global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+
 use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta" 
 
 
@@ -39,14 +40,17 @@ Observed measurements -> Analysis indicators.
 *** Constructing indicators at the household level ***
 ******************************************************
 
-// Verify that each household has only one head 
+// Verify that each household has only one household head 
 
 by house_id_per, sort: egen hh_count = total(par_c==101)
-fre hh_count // Data quality check: 99.67% of the cases have only one household head. 
+fre hh_count // Data quality check: 99.67% of the cases have only one household head. For some reason, the rest is equal to 0. 
 
+tab sex if hh_count==0
+/* The majority of the cases are women. 
+There is a chance that women doesn't consider themselves as the head of the household, and 
+the person they consider the head of the household is currently not living in the household. */
 
-
-
+drop hh_count
 
 
 // Create variables that capture age, sex and educational level of the household head
@@ -58,6 +62,45 @@ foreach x in eda female cs_p13_1 clase1 {
 }
 
 order hh_count par_c eda hh_eda female hh_female cs_p13_1 hh_cs_p13_1 clase1 hh_clase1, last
+
+
+// Give a label to the new variables generated at the household level. 
+
+label variable hh_eda 		"Age of the household head"
+label variable hh_female 	"Identifier of female headed household"
+label variable hh_cs_p13_1 	"Educational level of the household head"
+label variable hh_clase1 	"Labour status of the household head"
+
+
+// Simplify the variable hh_kids
+fre hh_kids
+replace hh_kids=4 if hh_kids==5
+replace hh_kids=4 if hh_kids==6
+replace hh_kids=4 if hh_kids==7
+replace hh_kids=4 if hh_kids==8
+replace hh_kids=4 if hh_kids==9
+fre hh_kids
+
+label define hh_kids 0 "No kids in the household", modify
+label define hh_kids 1 "One kid in the household", modify
+label define hh_kids 2 "Two kids in the household",	modify
+label define hh_kids 3 "Three kids in the household", modify
+label define hh_kids 4 "Four or more kids in the household", modify
+label value hh_kids hh_kids 
+fre hh_kids
+
+
+// Check if socio-economic stratum is a variable at the individual or household level. 
+
+sort house_id_per
+bysort house_id_per: egen min_soc_str=min(soc_str)
+bysort house_id_per: egen max_soc_str=max(soc_str)
+gen dif = min_soc_str - max_soc_str
+tab dif /* Data quality check: All values are equal to zero, 
+which indicates that there are no value variations within households. 
+Therefore, socio-economic stratum is a variable at the household level. */
+drop dif min_soc_str max_soc_str
+
 
 
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta", replace

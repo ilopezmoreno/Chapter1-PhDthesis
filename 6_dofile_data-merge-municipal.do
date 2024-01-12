@@ -24,7 +24,14 @@ summarize count_entmun
 
 egen count_entmunper = group(ent_mun_per)
 summarize count_entmunper
-// Result: This surveys is covering municipalities 	
+
+fre  total_sde_mun total_stratum total_w_stratum total_econ total_educ
+drop total_sde_mun total_stratum total_w_stratum total_econ total_educ
+
+label variable migration_mun "% of people that migrated from their hometown to keep or maintain their current job"
+label variable ent_mun "Municipality identifier"
+label variable ent_mun_per "Municipality identifier in a specific year/quarter"
+	
+compress	
 	
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-municipal.dta", replace
-

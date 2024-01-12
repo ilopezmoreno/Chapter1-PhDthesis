@@ -33,17 +33,35 @@ foreach year_q of local year_quarter {
 
 use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference. 
 
-// DATA CLEANING BASED ON INEGI CRITERIA
+// DATA CLEANING AND DATA TRANSFORMATION BASED ON INEGI CRITERIA 
 
 	/* INEGI explains that it is necessary to execute a data cleaning process in the demographic dataset (SDEM) 
 	in case you want to combine it with the employment datasets (COE1 and COE2)
 	All the specifications are explained in page 13 of the following document: */
 
-	/* First, INEGI recommends to drop all the kids below 12 years old from the sample because 
+	/* However, before starting with the data cleaning process, I need to generate a variable that 
+	counts the total number of people living in the household (including kids)  */
+
+	// To do so, I first need to create a unique household ID. 
+	egen house_id_per  = concat(cd_a ent con v_sel n_hog h_mud per), punct(.)	
+
+	// Then I will ask stata to create the variable that counts the number of household members. 
+	egen hh_members = total(eda>=0), by(house_id_per) 
+	summarize hh_members
+
+	// Then I will ask stata to create a variable that indicates the presence of kids below 5 years old. 
+	egen hh_kids = total(eda<=5), by(house_id_per) 
+	summarize hh_kids
+	
+	// After doing this, I will ask stata to erase the unique household ID
+	drop house_id_per 
+
+	/* After this data creation, I need to follow INEGI's criteria to merge datasets. 
+	First, INEGI recommends to drop all the kids below 12 years old from the sample because 
 	those kids where not interviewed in the employment survey. Therefore, it is not necesary to keep them. 
 	More specifically, all values between 00 and 11 as well as those equal to 99 should be dropped. 
 	Remember that variable "eda" is equal to "age".*/
-	
+
 	drop if eda<=11
 	drop if eda==99
 
@@ -147,7 +165,7 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	
 //	UNIQUE IDENTIFICATION VARIABLE BASED ON INEGI CRITERIA	
 	
-  // 	unique_id for each respondent
+// 	unique_id for each respondent
 	egen person_id = concat(cd_a ent con v_sel n_hog h_mud n_ren), 	punct(.) 
 
 /* 	Data quality check: 
