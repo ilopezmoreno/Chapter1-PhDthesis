@@ -44,8 +44,6 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta"
 	seg_soc     	///
 	c_ocu11c    	///
 	ing7c       	///
-	dur9c       	///
-	emple7c     	///
 	medica5c    	///
 	buscar5c    	///
 	dur_est			///
@@ -72,7 +70,6 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta"
 	eda19c      	///
 	domestico   	///
 	anios_esc   	///
-	hrsocup			///
 	ing_x_hrs   	///
 	tpg_p8a     	///
 	tcco        	///
@@ -84,7 +81,6 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta"
 	tue_ppal    	///
 	trans_ppal  	///
 	mh_fil2     	///
-	mh_col      	///
 	sec_ins     	///
 	n_inf       	///
 	p1          	///

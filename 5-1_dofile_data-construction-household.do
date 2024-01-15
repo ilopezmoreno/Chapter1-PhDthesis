@@ -43,14 +43,15 @@ Observed measurements -> Analysis indicators.
 // Verify that each household has only one household head 
 
 by house_id_per, sort: egen hh_count = total(par_c==101)
-fre hh_count // Data quality check: 99.67% of the cases have only one household head. For some reason, the rest is equal to 0. 
+
+fre hh_count 
+/* 	Data quality check: 99.67% of the cases have only one household head. 
+	For some reason, the rest is equal to 0. */
 
 tab sex if hh_count==0
-/* The majority of the cases are women. 
-There is a chance that women doesn't consider themselves as the head of the household, and 
-the person they consider the head of the household is currently not living in the household. */
-
-drop hh_count
+/* 	The majority of the cases are women. 
+	There is a chance that women doesn't consider themselves as the head of the household, and 
+	the person they consider the head of the household is currently not living in the household. */
 
 
 // Create variables that capture age, sex and educational level of the household head
@@ -101,6 +102,7 @@ which indicates that there are no value variations within households.
 Therefore, socio-economic stratum is a variable at the household level. */
 drop dif min_soc_str max_soc_str
 
+drop hh_count
 
 
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta", replace
