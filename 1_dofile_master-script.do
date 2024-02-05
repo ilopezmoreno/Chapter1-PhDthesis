@@ -3,28 +3,37 @@
 	**************************
 	
 /* 	This master do-file include the following instructions to Stata
-	1. Installing required settings and packages 
-	2. Establish a dynamic and absolute file path to the working directory. 
-	3. Create the basic folder structure
-	4. Running the rest of the do-files */
+		- Indicating the stata version that was used during the creation of this do-files
+		- Installing required settings and packages 
+		- Establish a dynamic and absolute file path to the working directory. 
+		- Create the basic folder structure
+		- Running the rest of the do-files  */
 
 	
+	// These do-files were created using Stata 17. 
+	// There is a chance that certain commands used in this do-file will not work if you are using a Stata version lower than 17. 
+	// You can still try to run the do-files in other stata versions, but you will have to identify if there are some commands that are not working. 
+		version 17
+		clear all
+		set more off
+		cls
+	 	
 	// Installing required settings and packages
-		ssc install stata_linter
-		ssc install fre
-		ssc install mdesc
-		ssc isntall bcstats
-		ssc install iefieldkit
-		ssc install ietoolkit
-
+		ssc install stata_linter 	// Detects and corrects bad coding practices in Stata do-files following the DIME Analytics Stata Style Guide.
+		ssc install fre 			// This command is very similar to "tabulate" command, but in certain cases is more useful. 
+		ssc install mdesc 			// Displays the number and proportion of missing values for each variable.
+		ssc isntall bcstats 		// bcstats compares back check data (i.e., field audit, reinterview) and original survey data, producing a comparison dataset. 
+		ssc install iefieldkit		// DIME Analytics package with useful commands: iecodebook, ietestform, ieduplicates, iecompdup
+		ssc install ietoolkit 		// DIME Analytics package with useful commands for data management: iefolder, iegitaddmd, ieboilstart 		
+		
+		
 		
 	// Establish dynamic and absolute file path to the working directory.
 		clear
 		global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis" // Establish a dynamic and absolute file path.
 		/* Important notes: 
-		Always remember to use forward slashes "/" in file paths to working directories
-		For Stata, globals must only be defined in the master do-file
-		*/
+				- Always remember to use forward slashes "/" in file paths to working directories. Macbooks doesn't reproduce file paths with backward slashes "\"
+				- For Stata, globals must only be defined in the master do-file */
 
 
 	// Create the basic folder structure
