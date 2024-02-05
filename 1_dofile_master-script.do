@@ -4,7 +4,7 @@
 	
 /* 	This master do-file include the following instructions to Stata
 	1. Installing required settings and packages 
-	2. Establish dynamic and absolute file path to the working directory. 
+	2. Establish a dynamic and absolute file path to the working directory. 
 	3. Create the basic folder structure
 	4. Running the rest of the do-files */
 

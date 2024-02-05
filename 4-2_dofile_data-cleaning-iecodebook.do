@@ -25,6 +25,8 @@ https://www.youtube.com/watch?v=zm6eoMU09dA&t=1174s
 
 use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta" 
 
+
+
 /* The following line of code is used to generate the excel file "iecodebook"
 However, those that want to replicate my code, doesn't need to generate a iecodebook. 
 Instead, they just need to charge the one that I already prepared.   
@@ -34,7 +36,7 @@ Instead, code-replicants just need to ask stata to apply
 the iecodebook.xlsx that I already did. 
 */
 		// De-activated for reproducibility purposes. 
-		* iecodebook template using "${root}/iecodebooks_chapter1.xlsx", replace 
+		*  iecodebook template using "${root}/iecodebooks_chapter1.xlsx", replace 
 		// De-activated for reproducibility purposes. 
 
 /* 	Note to myself: The first time I ran this command, it took a 
@@ -43,6 +45,8 @@ the iecodebook.xlsx that I already did.
 	using stata rather than using iecodebook. 
 	I will use the iecodebook only to re-label and re-code variables. */ 
 
+	
+	
 fre e_con
 fre emp_ppal
 fre cs_p13_1
@@ -59,7 +63,8 @@ fre clase1
 fre ur
 fre cs_p13_1
 fre e_con
+fre rama_est1
 
-save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta", replace
+save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook.dta", replace
 
 

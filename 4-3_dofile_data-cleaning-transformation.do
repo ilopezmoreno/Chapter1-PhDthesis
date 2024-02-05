@@ -6,7 +6,7 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 A data-cleaning do-file should consider: 
 	- Dropping variables that are not needed for the analysis. This has been done. 
 	- Relabel variable names and values from spanish to english. I already did this using iecodebook
-	- Recode variables.  I already did this using iecodebook
+	- Recode variables. I already did this in several variables using iecodebook
 	
 A data-cleaning do-file should also consider:    
  	- Dropping observations with specific variable values. 
@@ -14,9 +14,9 @@ A data-cleaning do-file should also consider:
 	- Destring variables. 
 	- Check consistency across variables.
 
-Therefore, this data-cleaning do-file contains a clear explanation of all the changes done to the dataset.	
+Therefore, this data-cleaning do-file document changes to the dataset that require a clear explanation.	
 	
-A few pieces of documentation should also accompany the clean dataset	
+A few pieces of documentation should also accompany a clean dataset	
 	
 	- 	A variable dictionary/codebook listing details about each variable  
 		What does this variable mean? Summary of its content
@@ -30,7 +30,9 @@ A few pieces of documentation should also accompany the clean dataset
 	- 	A report documenting any irregularities and distributional patterns 
 		encountered in the data.  */
 	
-use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
+use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook.dta"
+
+
 
 
 /* 	Dropping observations with specific variable values
@@ -51,6 +53,10 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 		summarize eda // Data quality check: Minimum age in the sample 15, maximum age 98.
 		
 
+		
+		
+		
+		
 /*	Missing value decisions. 
 	In this section I remove values like -88, 999, etc that are commonly use to represent answers 
 	like "Don't know" or "declined to answer". 
@@ -73,6 +79,10 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 		replace hij5c=.r if hij5c==5 // .r is used to identified those women that refused to answer.
 
 
+		
+		
+		
+		
 /*	Unique ID
 	I will check again that the unique ID has no duplicates. 
 	Remember to anonymize/de-identify if necessary. */
@@ -80,6 +90,9 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 		duplicates report person_id 	
 		// Result: The unique ID has no duplicates.  		
 
+		
+
+		
 		
 		
 /* 	Changes to the variable "socioeconomic stratum"
@@ -90,7 +103,7 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 	
 	I need to rename this variable as it is currently under the variable name "est", and Stata
 	has a command called "estimates", and the abbreviation is "est".
-	To avoid problems, I will change the name of that variable. */
+	To avoid potential problems, I will change the name of that variable. */
 		rename est soc_str 
 
 	// 	I also need to recode this variable.
@@ -137,6 +150,8 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 					fre soc_str
 	
 
+	
+	
 /* 	Changes to the variable "sex"	
 			As this research is oriented to analysing female labour participation, 
 			instead of using the variable "sex", I will create the variable "female", 
@@ -149,6 +164,8 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 			label value female female
 			fre female
 
+			
+			
 /* 	Changes to the variable "n_hij"
 			This variable captures the number of sons or daughers that women have had.
 			It currently has values from 0 to 25.
@@ -177,7 +194,19 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy.dta"
 			tab n_hij if female==1
 
 			
-		
+			
+// Generate variable to identify people working in different economics sector, without considering non-economically active population. 				
+			generate P4A_Sector=.
+			replace  P4A_Sector=. if rama_est1==0
+			replace  P4A_Sector=1 if rama_est1==1
+			replace  P4A_Sector=2 if rama_est1==2
+			replace  P4A_Sector=3 if rama_est1==3
+			replace  P4A_Sector=4 if rama_est1==4
+			label variable 	P4A_Sector "Economic Sector Categories"
+			label define 	P4A_Sector 1 "Agriculture" 2 "Industry" 3 "Services" 4 "Unspecified activities"
+			label value 	P4A_Sector P4A_Sector	  
+			fre P4A_Sector 
+						
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta", replace	
 	
 
@@ -185,7 +214,6 @@ save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta"
 /* 	The following actions were not required for this dataset.
 
 	- 	Destring variables. 
-		For example, Transform categorical string variables into destring labeled variables. 	
 	  
 	- 	Check consistency across variables. For example:
 		If a respondent is male, then it cannot be pregnant. 

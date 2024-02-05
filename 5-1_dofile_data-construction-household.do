@@ -71,24 +71,29 @@ label variable hh_eda 		"Age of the household head"
 label variable hh_female 	"Identifier of female headed household"
 label variable hh_cs_p13_1 	"Educational level of the household head"
 label variable hh_clase1 	"Labour status of the household head"
+label variable hh_kids 		"Number of kids in the household"
+label variable hh_members 	"Number of household members"
 
 
-// Simplify the variable hh_kids
-fre hh_kids
-replace hh_kids=4 if hh_kids==5
-replace hh_kids=4 if hh_kids==6
-replace hh_kids=4 if hh_kids==7
-replace hh_kids=4 if hh_kids==8
-replace hh_kids=4 if hh_kids==9
+// Changes to the variable hh_kids "Number of kids in the household"			
+tab hh_kids
+recode hh_kids (5=4) (6=4) (7=4) (8=4) (9=4)
+label define hh_kids 	///
+0 "No kids"				///
+1 "One kid" 			///
+2 "Two kids"			///
+3 "Three kids"	 		///
+4 "Four or more kids", replace
+label value hh_kids hh_kids
 fre hh_kids
 
-label define hh_kids 0 "No kids in the household", modify
-label define hh_kids 1 "One kid in the household", modify
-label define hh_kids 2 "Two kids in the household",	modify
-label define hh_kids 3 "Three kids in the household", modify
-label define hh_kids 4 "Four or more kids in the household", modify
-label value hh_kids hh_kids 
-fre hh_kids
+
+// Changes to the variable hh_members "Number of household members"			
+tab hh_members
+recode hh_members (12=11) (13=11) (14=11) (15=11) (16=11) (17=11) (18=11) (19=11) (20=11) (21=11) (22=11) (23=11) (24=11) (25=11) (26=11) (27=11)
+label define hh_members 11 "More than 10 household members", replace
+label value hh_members hh_members
+fre hh_members
 
 
 // Check if socio-economic stratum is a variable at the individual or household level. 
@@ -105,4 +110,4 @@ drop dif min_soc_str max_soc_str
 drop hh_count
 
 
-save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta", replace
+save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned-hh.dta", replace

@@ -48,11 +48,11 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	// Then I will ask stata to create the variable that counts the number of household members. 
 	egen hh_members = total(eda>=0), by(house_id_per) 
 	summarize hh_members
-
+	
 	// Then I will ask stata to create a variable that indicates the presence of kids below 5 years old. 
 	egen hh_kids = total(eda<=5), by(house_id_per) 
 	summarize hh_kids
-	
+		
 	// After doing this, I will ask stata to erase the unique household ID
 	drop house_id_per 
 

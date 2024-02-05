@@ -1,6 +1,6 @@
 clear
 global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
-use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta" 
+use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned-hh.dta" 
 
 
 /* 
@@ -79,9 +79,6 @@ tab ent if mun==.
 			
 /* 	Now it is time to create the variables that will show the 
 	SECTORAL DISTRIBUTION OF EMPLOYMENT at the municipal level */
-
-fre rama_est1
-// This variable shows if the person works in the primary, secondary or terciary sector.	
 	
 // 	Create the variable "agri_sector" to identify people working in agriculture.
 		generate agri_sector=.

@@ -3,7 +3,7 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 
 
 // 	Ask stata to open the dataset with ENOE household surveys
-use "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta"
+use "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned-hh.dta"
 
 // 	Change the working directory to the path where the municipal data is located.
 cd "${root}/2_data-storage/municipal_data"

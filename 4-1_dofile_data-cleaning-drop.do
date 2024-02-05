@@ -4,10 +4,13 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta" 
 
 
-/* 	Although iecodebook offers the option to drop variable, the current dataset has 
-	almost 400. As a consequence, it takes a long time to generate the excel file 
+/* 	Although iecodebook offers the option to drop variables, the current dataset has 
+	almost 400 variables. As a consequence, it takes a long time to generate the excel file 
 	"iecodebook". Therefore, I will ask stata to drop several variables from the 
-	dataset, since most of them are not needed. */
+	dataset, since most of them are not needed. 
+	By doing this, it will take less time to generate the excel file iecodebook */
+	
+	
 	drop 			///
 	r_def 			///
 	loc				///
@@ -78,7 +81,6 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta"
 	ma48me1sm   	///
 	p14apoyos   	///
 	t_tra			///
-	tue_ppal    	///
 	trans_ppal  	///
 	mh_fil2     	///
 	sec_ins     	///
