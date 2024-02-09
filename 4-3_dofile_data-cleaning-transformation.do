@@ -33,8 +33,11 @@ A few pieces of documentation should also accompany a clean dataset
 use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook.dta"
 
 
+//  Destring variables. 
+	ds, has(type string) // Result: person_id_per  house_id_per	
+	// I don't want to destring the ID variables, so I will continue with the data cleaning. 
 
-
+	
 /* 	Dropping observations with specific variable values
 
 	As it was mentioned in a previous do-file, INEGI recommends to drop all the kids below 12 years old 
@@ -52,19 +55,17 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook
 		assert eda>=15 & !missing(eda) // Consistency check: Assertion is true. 
 		summarize eda // Data quality check: Minimum age in the sample 15, maximum age 98.
 		
-
-		
-		
-		
+	
 		
 /*	Missing value decisions. 
-	In this section I remove values like -88, 999, etc that are commonly use to represent answers 
+	In this section I replace values like -88, 999, etc that are commonly use to represent answers 
 	like "Don't know" or "declined to answer". 
-	I will use extended missing values instead of regular missing values "."
+	I will use extended missing values instead of a regular missing value "."
 	The options of extended missing values are: 
 	.d = "Dont know"
 	.r = "Refused to answer"
 	.s = "Skipped"
+	.n = "Not Applicable"
 	Note: This missing values can also be labeled. */ 
 	
 
@@ -72,28 +73,22 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook
 		This variable includes observation that were categorize as "0" for those who "Doesn't apply" */
 		fre hij5c 
 		tab hij5c sex 
-		// Consistency check: People who doesn't apply are men, so I will replace "0" as a missing value
+		// Consistency check: People who doesn't apply are men, so I will replace "0" as a normal missing value
 		replace hij5c=. if hij5c==0  
 		/* Moreover, there are a few cases where the female respondents did not 
-		specified if they had kids. Therefore, I will replace "5" as a missing value*/
-		replace hij5c=.r if hij5c==5 // .r is used to identified those women that refused to answer.
+		specified if they had kids. Therefore, I will replace "5" as a missing value */
+		replace hij5c=.r if hij5c==5 // .r is used to identified those women that refused to answer or just didn't answer.
 
-
-		
-		
-		
 		
 /*	Unique ID
 	I will check again that the unique ID has no duplicates. 
 	Remember to anonymize/de-identify if necessary. */
 			
 		duplicates report person_id 	
-		// Result: The unique ID has no duplicates.  		
+		// Consistency check: The unique ID has no duplicates.  		
 
 		
-
-		
-		
+			
 		
 /* 	Changes to the variable "socioeconomic stratum"
 
@@ -213,7 +208,7 @@ save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta"
 	
 /* 	The following actions were not required for this dataset.
 
-	- 	Destring variables. 
+	
 	  
 	- 	Check consistency across variables. For example:
 		If a respondent is male, then it cannot be pregnant. 
