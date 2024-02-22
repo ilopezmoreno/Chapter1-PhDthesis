@@ -118,21 +118,21 @@ do "8-1_dofile_final-data-analysis_main-figures.do"
 // This do-file is for the data analysis of FIGURES that will appear in the paper. 
 
 cd "$root"
-do "15_dofile_1st_regressions-nocontrols.do"
+do "95_dofile_1st_regressions-nocontrols.do"
 // This do-file executes the regression analysis without control variables, just fixed effects.
 
 cd "$root"
-do "15_dofile_2nd_regressions-withcontrols.do"
+do "95_dofile_2nd_regressions-withcontrols.do"
 // This do-file executes the regression analysis with most of the control variables, excluding the municipal controls.
 
 cd "$root"
-do "15_dofile_3rd_regressions-municipalcontrols.do"
+do "95_dofile_3rd_regressions-municipalcontrols.do"
 // This do-file executes the regression analysis with most of the control variables, including the municipal controls.
 
-cd "15_dofile_3rd_regressions-municipalcontrols-margins.do"
+cd "95_dofile_3rd_regressions-municipalcontrols-margins.do"
 // This do-file ask stata to run the margins command for the regressions that included all the control variables (individual, household, municipal)
 
-cd "15_dofile_3rd_regressions-municipalcontrols-marginsplot.do"
+cd "95_dofile_3rd_regressions-municipalcontrols-marginsplot.do"
 // This do-file ask stata to plot the margins results obtained with the previous do-file. 
 
 
