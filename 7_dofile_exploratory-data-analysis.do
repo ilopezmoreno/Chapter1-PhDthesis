@@ -1,6 +1,8 @@
 /* 	Two stages of data analysis: 
+	
 	• Exploratory data analysis: the research team will look for patterns 
 	in the data, in a descriptive fashion
+	
 	• Final data analysis: the research team will decide on and compile 
 	main results for research outputs, polish, and structure 
 	

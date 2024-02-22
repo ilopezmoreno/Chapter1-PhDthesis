@@ -4,7 +4,7 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 /* 
 
 A data-cleaning do-file should consider: 
-	- Dropping variables that are not needed for the analysis. This has been done. 
+	- Dropping variables that are not needed for the analysis. This has already been done. 
 	- Relabel variable names and values from spanish to english. I already did this using iecodebook
 	- Recode variables. I already did this in several variables using iecodebook
 	
@@ -20,21 +20,23 @@ A few pieces of documentation should also accompany a clean dataset
 	
 	- 	A variable dictionary/codebook listing details about each variable  
 		What does this variable mean? Summary of its content
-		In the following link, INEGI has a codebook for each variable.  
-		
+		In the following link, INEGI has a codebook for each variable:
 		https://www.inegi.org.mx/rnm/index.php/catalog/497/data-dictionary
 		
 	- 	The instruments used to collect the data
-		This was not required for this research project.
+		This was not required for this research project, as I am using secondary data.
 		 
 	- 	A report documenting any irregularities and distributional patterns 
 		encountered in the data.  */
+	
+
 	
 use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook.dta"
 
 
 //  Destring variables. 
-	ds, has(type string) // Result: person_id_per  house_id_per	
+	ds, has(type string) // This command shows which variables are in a string format.
+	// Result: person_id_per, house_id_per	
 	// I don't want to destring the ID variables, so I will continue with the data cleaning. 
 
 	
@@ -66,7 +68,7 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook
 	.r = "Refused to answer"
 	.s = "Skipped"
 	.n = "Not Applicable"
-	Note: This missing values can also be labeled. */ 
+	Note: These "extender" missing values can also be labeled. */ 
 	
 
 		/* The variable hij5c captures the number of sons or daughters that women have had.
@@ -118,8 +120,9 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook
 			in the household (cement, wood, mosaic), overcrowding in the household, access to electricity,
 			water and drainage piping as well as possession of items such as televisions, cars, cell phones,
 			refrigerators and washing machines. 
-				Check the following document: https://t.ly/kIA1y 
-				"Como se hace la ENOE. Metodos y procedimientos"
+				Check the following link to open the document "Como se hace la ENOE. Metodos y procedimientos" 
+				hhttps://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825190613.pdf 
+
 				Page 51 (42 in the report), indicates that it was built using 34 indicators.
 				Page 66 (57 in the report), includes an explanation of the 34 indicators that were considered. 	*/
 					replace soc_str=1 if soc_str==10
@@ -130,9 +133,10 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook
 	//	However, in 2005 and 2010, they had more values.	
 					tab soc_str per // Consistency check
 	/* 	In this document INEGI explains the methodology for the first versions of the ENOE survey, which started in 2005.
-					https://t.ly/XjDJX - Page 12 (Page 6 in the report)
+		https://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/historicos/2104/702825444204/702825444204_1.pdf
+		Page 12 (Page 6 in the report)
 		The document indicates that in the first versions, they divided the sample in 4 socioeconomic stratum, and 
-		then they did sub-divisions of socio-economic stratum.
+		then they also did sub-divisions of socio-economic stratum.
 		Therefore, I need to replace those values as well */
 					replace soc_str=1 if inlist(soc_str, 11, 12, 13, 14)
 					replace soc_str=2 if inlist(soc_str, 21, 22, 23, 24) 
@@ -207,10 +211,9 @@ save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-cleaned.dta"
 
 	
 /* 	The following actions were not required for this dataset.
-
-	
 	  
-	- 	Check consistency across variables. For example:
+	- 	Check consistency across variables. 
+		For example:
 		If a respondent is male, then it cannot be pregnant. 
 		If a respondent said they are not working, then they shouldn't have a salary.
 		You can fin errors in the dataset by exploring the data using tabulations, 

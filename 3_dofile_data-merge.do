@@ -9,8 +9,8 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 	5. Drop irrelevant variables
 	6. Compress the pool dataset. */
 
-/* 	INEGI recommends to always uses the SDEM dataset as the reference dataset 
-	and then merge it with the datasets that includes the questions that you are interested in. 
+/* 	INEGI recommends to always uses the SDEM dataset as the reference dataset and 
+	then merge it with the datasets that includes the questions that you are interested in. 
 	But before doing that, it is necessary to execute a data cleaning process. 
 	
 	Therefore, I have to create a loop to perform the data cleaning and merge the datasets. */
@@ -35,21 +35,24 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 
 // DATA CLEANING AND DATA TRANSFORMATION BASED ON INEGI CRITERIA 
 
-	/* INEGI explains that it is necessary to execute a data cleaning process in the demographic dataset (SDEM) 
-	in case you want to combine it with the employment datasets (COE1 and COE2)
-	All the specifications are explained in page 13 of the following document: */
+	/* INEGI explains that it is necessary to execute a data cleaning process in the  
+	demographic dataset (SDEM) and then combine it with the employment datasets (COE1 and COE2)
+	All the specifications are explained in page 12 of the following document: 
+	https://www.inegi.org.mx/contenidos/programas/enoe/15ymas/doc/con_basedatos_proy2010.pdf 
+	*/
 
-	/* However, before starting with the data cleaning process, I need to generate a variable that 
-	counts the total number of people living in the household (including kids)  */
+	/* Nevertheless, before starting with the data cleaning process, I need to generate a variable that 
+	counts the total number of people living in the household (including kids), as this is a variable that 
+	will be used in the regression analysis */
 
-	// To do so, I first need to create a unique household ID. 
+	// To do so, I first need to create the unique household ID based on INEGI instructions.  
 	egen house_id_per  = concat(cd_a ent con v_sel n_hog h_mud per), punct(.)	
 
-	// Then I will ask stata to create the variable that counts the number of household members. 
+	// Now I will ask stata to create the variable that counts the number of household members. 
 	egen hh_members = total(eda>=0), by(house_id_per) 
 	summarize hh_members
 	
-	// Then I will ask stata to create a variable that indicates the presence of kids below 5 years old. 
+	// Now I will ask stata to create a variable that captures the presence of kids below 5 years old. 
 	egen hh_kids = total(eda<=5), by(house_id_per) 
 	summarize hh_kids
 		
@@ -57,6 +60,7 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	drop house_id_per 
 
 	/* After this data creation, I need to follow INEGI's criteria to merge datasets. 
+	
 	First, INEGI recommends to drop all the kids below 12 years old from the sample because 
 	those kids where not interviewed in the employment survey. Therefore, it is not necesary to keep them. 
 	More specifically, all values between 00 and 11 as well as those equal to 99 should be dropped. 
@@ -66,7 +70,7 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	drop if eda==99
 
 	/* Second, INEGI recommends to drop all the individual that didn't 
-	complete the interview. More specifically, the explain that I should 
+	complete the interview. More specifically, they explain that I should 
 	eliminate those interviews where the variable "r_def" is different from 
 	"00", since "r_def" is the definitive result of the interview and 
 	"00" indicates that the interview was completed. */
@@ -210,5 +214,4 @@ duplicates report person_id_per
 egen house_id_per  = concat(cd_a ent con v_sel n_hog h_mud per), 		punct(.)	
 	
 	
-
 save "${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta", replace

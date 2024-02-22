@@ -8,7 +8,7 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta"
 	almost 400 variables. As a consequence, it takes a long time to generate the excel file 
 	"iecodebook". Therefore, I will ask stata to drop several variables from the 
 	dataset, since most of them are not needed. 
-	By doing this, it will take less time to generate the excel file iecodebook */
+	By doing this, it will take less time to generate the "iecodebook" excel file */
 	
 	
 	drop 			///

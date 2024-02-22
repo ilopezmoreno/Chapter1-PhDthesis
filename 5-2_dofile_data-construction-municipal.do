@@ -41,7 +41,7 @@ Observed measurements -> Analysis indicators.
 *** Constructing indicators at the municipal level ***
 ******************************************************
 
-// First, create a sholder to store all the calculations. 
+// First, create a folder to store all the calculations. 
 cd "${root}/2_data-storage"
 capture mkdir municipal_data
 

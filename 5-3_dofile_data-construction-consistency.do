@@ -131,7 +131,7 @@ ent_mun_per		surveys_entmun
 	Instead, the municipality variable has a missing value "."
 	
 	This problem is only happening in period 3 and 4. Meaning 2015 & 2019
-	This is something from the dataset itself. I will have to ocontact INEGI to check what's the problem. 
+	This is something from the dataset itself. I will have to contact INEGI to check what's the problem. 
 	
 */
 

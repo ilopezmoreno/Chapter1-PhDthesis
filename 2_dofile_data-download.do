@@ -69,6 +69,11 @@ global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 	shell rename "coe1t119.dta" "COE1T119.dta" // As this dataset is in lower case, I need to rename it. 
 	shell rename "coe2t119.dta" "COE2T119.dta" // As this dataset is in lower case, I need to rename it. 
 	
+
+	
+	
+	
+	
 /* 	I could have done the same process using a loop.
 	However, for some reason it takes way more time to download the datasets if I use a loop.
 	This is a reference of the loop that can be used to download the datasets. */

@@ -54,7 +54,7 @@ tab sex if hh_count==0
 	the person they consider the head of the household is currently not living in the household. */
 
 
-// Create variables that capture age, sex and educational level of the household head
+// Create variables to capture age, sex and educational level of the household head
 
 foreach x in eda female cs_p13_1 clase1 {
 	
@@ -102,8 +102,9 @@ sort house_id_per
 bysort house_id_per: egen min_soc_str=min(soc_str)
 bysort house_id_per: egen max_soc_str=max(soc_str)
 gen dif = min_soc_str - max_soc_str
-tab dif /* Data quality check: All values are equal to zero, 
-which indicates that there are no value variations within households. 
+tab dif 
+/* Data quality check: All values are equal to zero. 
+This indicates that there are no value variations within households. 
 Therefore, socio-economic stratum is a variable at the household level. */
 drop dif min_soc_str max_soc_str
 
