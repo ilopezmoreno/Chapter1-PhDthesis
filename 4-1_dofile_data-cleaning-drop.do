@@ -120,10 +120,8 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta"
 	p2d10       	///
 	p2d11       	///
 	p2d99       	///
-	p2e         	///
 	p2f         	///
 	p2g1        	///
-	p2g2        	///
 	p2h1        	///
 	p2h2        	///
 	p2h3        	///
