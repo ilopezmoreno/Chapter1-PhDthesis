@@ -74,6 +74,7 @@ label variable hh_clase1 	"Labour status of the household head"
 label variable hh_kids 		"Number of kids in the household"
 label variable hh_members 	"Number of household members"
 
+/*
 
 // Changes to the variable hh_kids "Number of kids in the household"			
 tab hh_kids
@@ -95,6 +96,7 @@ label define hh_members 11 "More than 10 household members", replace
 label value hh_members hh_members
 fre hh_members
 
+*/
 
 // Check if socio-economic stratum is a variable at the individual or household level. 
 
