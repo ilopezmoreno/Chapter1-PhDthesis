@@ -1,5 +1,7 @@
 clear 
-global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+*global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+
+
 
 /* 	This do-file includes the following sections
 	1. Data cleaning based on INEGI criteria. 

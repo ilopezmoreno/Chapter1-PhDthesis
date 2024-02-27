@@ -1,5 +1,6 @@
 clear 
-global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+*global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+
 cd "${root}/4_outputs/regression_results/3_probit_sde_municipalcontrols"
 capture mkdir marginsplots
 

@@ -1,5 +1,5 @@
 clear 
-global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+*global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 
 use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta" 
 

@@ -1,10 +1,8 @@
 clear 
 
-global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
-cd "$root/2_data-storage/pool_dataset/"
+*global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
 
-
-use pool_enoe_105_110_115_119-municipal.dta
+use "$root/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-municipal.dta" 
 drop _merge
 
 

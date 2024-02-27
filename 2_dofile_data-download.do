@@ -1,5 +1,8 @@
 clear 
-global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+*global root "C:/Users/d57917il/Documents/GitHub/Chapter1-PhDthesis"
+
+
+
 
 /* 	Brief explanation of the datasets
 
