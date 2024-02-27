@@ -362,5 +362,7 @@ tab ent if mun==.
 			rename n_hij w_mun_nkids
 			save "${root}/2_data-storage/municipal_data/w_mun_nkids.dta", replace
 			restore			
-
+	
+	
+			clear
 			

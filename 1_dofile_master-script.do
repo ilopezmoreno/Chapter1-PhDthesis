@@ -21,7 +21,7 @@
 	// Installing required settings and packages (if required)
 	
 	*	ssc install stata_linter 	// Detects and corrects bad coding practices in Stata do-files following the DIME Analytics Stata Style Guide.
-	*	ssc install fre 			// This command is very similar to "tabulate" command, but in certain cases is more useful. 
+	 	ssc install fre 			// This command is very similar to "tabulate" command, but in certain cases is more useful. 
 	*	ssc install mdesc 			// Displays the number and proportion of missing values for each variable.
 	*	ssc install iefieldkit		// DIME Analytics package with useful commands: iecodebook, ietestform, ieduplicates, iecompdup
 	*	ssc install ietoolkit 		// DIME Analytics package with useful commands for data management: iefolder, iegitaddmd, ieboilstart 		
