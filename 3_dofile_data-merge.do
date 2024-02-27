@@ -152,9 +152,9 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	clear
 	cd 		"${root}/2_data-storage/merge_datasets"
 	use 			merge_enoe105
-	append	using 	merge_enoe110
-	append	using	merge_enoe115
-	append	using	merge_enoe119
+	append	using 	merge_enoe110, force
+	append	using	merge_enoe115, force
+	append	using	merge_enoe119, force
 	save 	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119.dta", replace
 
 /*	Now that I have the pool dataset for each of the 4 year/quarters considered for this study...	

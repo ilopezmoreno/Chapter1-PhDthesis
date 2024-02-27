@@ -114,25 +114,29 @@ do "7_dofile_exploratory-data-analysis.do"
 // This do-file is to look for patterns in the data, in a descriptive fashion (Not used currently)
 
 cd "$root"
-do "8-1_dofile_final-data-analysis_main-figures.do"
+do "8-1_dofile_descriptive-statistics.do"
+// This do-file is for to generate the descriptive statistics of the variable employed in the econometric model. 
+
+cd "$root"
+do "8-2_dofile_final-data-analysis_main-figures.do"
 // This do-file is for the data analysis of FIGURES that will appear in the paper. 
 
 cd "$root"
-do "95_dofile_1st_regressions-nocontrols.do"
+do "9-1_dofile_1st_regressions-nocontrols.do"
 // This do-file executes the regression analysis without control variables, just fixed effects.
 
 cd "$root"
-do "95_dofile_2nd_regressions-withcontrols.do"
+do "9-2_dofile_2nd_regressions-withcontrols.do"
 // This do-file executes the regression analysis with most of the control variables, excluding the municipal controls.
 
 cd "$root"
-do "95_dofile_3rd_regressions-municipalcontrols.do"
+do "9-4_dofile_3rd_regressions-municipalcontrols-margins.do"
 // This do-file executes the regression analysis with most of the control variables, including the municipal controls.
 
-cd "95_dofile_3rd_regressions-municipalcontrols-margins.do"
+cd "9-5_dofile_3rd_regressions-municipalcontrols-marginsplot.do"
 // This do-file ask stata to run the margins command for the regressions that included all the control variables (individual, household, municipal)
 
-cd "95_dofile_3rd_regressions-municipalcontrols-marginsplot.do"
+cd "9-6_dofile_robustness-check.do"
 // This do-file ask stata to plot the margins results obtained with the previous do-file. 
 
 
