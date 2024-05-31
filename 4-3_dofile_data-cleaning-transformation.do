@@ -121,7 +121,7 @@ use	"${root}/2_data-storage/pool_dataset/pool_enoe_105_110_115_119-tidy-codebook
 			water and drainage piping as well as possession of items such as televisions, cars, cell phones,
 			refrigerators and washing machines. 
 				Check the following link to open the document "Como se hace la ENOE. Metodos y procedimientos" 
-				hhttps://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825190613.pdf 
+				https://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/nueva_estruc/702825190613.pdf 
 
 				Page 51 (42 in the report), indicates that it was built using 34 indicators.
 				Page 66 (57 in the report), includes an explanation of the 34 indicators that were considered. 	*/

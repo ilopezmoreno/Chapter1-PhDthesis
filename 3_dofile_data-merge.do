@@ -50,11 +50,11 @@ use SDEMT`year_q' // Always use the SDEM dataset for each quarter as a reference
 	// To do so, I first need to create the unique household ID based on INEGI instructions.  
 	egen house_id_per  = concat(cd_a ent con v_sel n_hog h_mud per), punct(.)	
 
-	// Now I will ask stata to create the variable that counts the number of household members. 
+	// Now I will ask stata to create the variable that counts the total number of household members. 
 	egen hh_members = total(eda>=0), by(house_id_per) 
 	summarize hh_members
 	
-	// Now I will ask stata to create a variable that captures the presence of kids below 5 years old. 
+	// Now I will ask stata to create a variable that captures the presence of kids (5 years or younger). 
 	egen hh_kids = total(eda<=5), by(house_id_per) 
 	summarize hh_kids
 		
